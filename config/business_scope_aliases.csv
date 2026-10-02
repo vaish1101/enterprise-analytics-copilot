@@ -1,0 +1,30 @@
+alias,company_id,scope_id,scope_type
+group,henkel,henkel_group,GROUP
+henkel group,henkel,henkel_group,GROUP
+adhesive technologies,henkel,henkel_adhesive_technologies,BUSINESS_UNIT
+consumer brands,henkel,henkel_consumer_brands,BUSINESS_UNIT
+mobility & electronics,henkel,henkel_mobility_electronics,BUSINESS_AREA
+mobility and electronics,henkel,henkel_mobility_electronics,BUSINESS_AREA
+packaging & consumer goods,henkel,henkel_packaging_consumer_goods,BUSINESS_AREA
+packaging and consumer goods,henkel,henkel_packaging_consumer_goods,BUSINESS_AREA
+craftsmen construction & professional,henkel,henkel_craftsmen_construction_professional,BUSINESS_AREA
+craftsmen construction and professional,henkel,henkel_craftsmen_construction_professional,BUSINESS_AREA
+laundry & home care,henkel,henkel_laundry_home_care,BUSINESS_AREA
+laundry and home care,henkel,henkel_laundry_home_care,BUSINESS_AREA
+hair,henkel,henkel_hair,BUSINESS_AREA
+other consumer businesses,henkel,henkel_other_consumer_businesses,BUSINESS_AREA
+group,mercedes_benz_group,mercedes_group,GROUP
+mercedes group,mercedes_benz_group,mercedes_group,GROUP
+cars,mercedes_benz_group,mercedes_cars,SEGMENT
+mercedes-benz cars,mercedes_benz_group,mercedes_cars,SEGMENT
+mercedes benz cars,mercedes_benz_group,mercedes_cars,SEGMENT
+vans,mercedes_benz_group,mercedes_vans,SEGMENT
+mercedes-benz vans,mercedes_benz_group,mercedes_vans,SEGMENT
+mercedes benz vans,mercedes_benz_group,mercedes_vans,SEGMENT
+financial services,mercedes_benz_group,mercedes_financial_services,SEGMENT
+mobility,mercedes_benz_group,mercedes_financial_services,SEGMENT
+group,siemens,siemens_group,GROUP
+siemens group,siemens,siemens_group,GROUP
+digital industries,siemens,siemens_digital_industries,SEGMENT
+smart infrastructure,siemens,siemens_smart_infrastructure,SEGMENT
+siemens mobility,siemens,siemens_mobility,SEGMENT

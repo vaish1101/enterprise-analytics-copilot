@@ -1,0 +1,16 @@
+{"question_id":"s6t01","question":"What were Henkel H1 2026 sales?","expected_route":"ANALYTICS_ONLY","expected_status":"COMPLETED"}
+{"question_id":"s6t02","question":"What was Mercedes-Benz Group revenue in H1 2026?","expected_route":"ANALYTICS_ONLY","expected_status":"COMPLETED"}
+{"question_id":"s6t03","question":"How much did Henkel sales change from H1 2025 to H1 2026?","expected_route":"ANALYTICS_ONLY","expected_status":"COMPLETED"}
+{"question_id":"s6t04","question":"How does Henkel define organic sales growth?","expected_route":"KNOWLEDGE_ONLY","expected_status":"COMPLETED"}
+{"question_id":"s6t05","question":"According to the report, what was Mercedes-Benz Cars adjusted EBIT in Q2 2026?","expected_route":"KNOWLEDGE_ONLY","expected_status":"COMPLETED"}
+{"question_id":"s6t06","question":"Why did Henkel organic sales growth change in H1 2026?","expected_route":"HYBRID","expected_status":"COMPLETED"}
+{"question_id":"s6t07","question":"Why did Mercedes-Benz Cars adjusted EBIT change in Q2 2026?","expected_route":"HYBRID","expected_status":"COMPLETED"}
+{"question_id":"s6t08","question":"What contributed to Henkel organic growth in H1 2026?","expected_route":"DECOMPOSITION_EXPLANATION","expected_status":"COMPLETED"}
+{"question_id":"s6t09","question":"What drove Mercedes-Benz Cars adjusted EBIT in Q2 2026?","expected_route":"DECOMPOSITION_EXPLANATION","expected_status":"COMPLETED"}
+{"question_id":"s6t10","question":"Reconcile Henkel nominal sales change in H1 2026.","expected_route":"DECOMPOSITION_EXPLANATION","expected_status":"COMPLETED"}
+{"question_id":"s6t11","question":"What was sales in H1 2026?","expected_route":"NEEDS_CLARIFICATION","expected_status":"NEEDS_CLARIFICATION"}
+{"question_id":"s6t12","question":"What was Mercedes-Benz Group sales in Q2 2026?","expected_route":"NEEDS_CLARIFICATION","expected_status":"NEEDS_CLARIFICATION"}
+{"question_id":"s6t13","question":"What was Tesla revenue in Q2 2026?","expected_route":"UNSUPPORTED","expected_status":"REFUSED"}
+{"question_id":"s6t14","question":"What was Henkel net income in H1 2026?","expected_route":"UNSUPPORTED","expected_status":"REFUSED"}
+{"question_id":"s6t15","question":"How much Mercedes-Benz Cars EBIT was due to pricing separately in Q2 2026?","expected_route":"UNSUPPORTED","expected_status":"REFUSED"}
+

@@ -1,0 +1,8 @@
+{
+  "core_freeze_hash": "926d09c3527e9e926f7ccf83dafe168a7e24841db995912850b28b60e12b0a13",
+  "frozen_at": "2026-09-24T20:42:00+02:00",
+  "supersedes_pre_onboarding_hash": "18c3a496e4bca2a577959b6dcf06466b938c79fbbb70172f6bc4b9f991dc9729",
+  "reason": "A generic calculation-policy coverage defect was found during onboarding before any Siemens benchmark execution. The source adapter is an explicitly allowed onboarding change. No prompts, graph routes, verifier rules, synthesis schema, or retrieval ranking algorithm changed.",
+  "siemens_retrieval_dataset_sha256": "c4b2143b2a9b072ce04deaa60482d3ef9a452d522c1b94bd6a168c1dd22c8b30",
+  "siemens_agent_dataset_sha256": "1d25b9ad762e8da9f5367d2b53297237e327205f3b322b70d74b1fafdd6dc4ed"
+}

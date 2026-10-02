@@ -1,0 +1,65 @@
+{
+  "configuration_hash": "63d662ef7a10b36a42a7c8f45f9f89a9c97f9695ad7e2c513fb89af7a3f1a70c",
+  "frozen_at": "2026-09-28T00:00:00+02:00",
+  "provider": "openai",
+  "model": "gpt-6-luna",
+  "model_configuration": {
+    "temperature": "provider_default_not_sent",
+    "max_output_tokens": "provider_default_not_sent",
+    "reasoning_effort": "model_default_medium",
+    "timeout_seconds": 60,
+    "graph_max_attempts": 2,
+    "sdk_max_retries": 0
+  },
+  "pricing": {
+    "date": "2026-09-28",
+    "input_per_million_usd": "0.10",
+    "output_per_million_usd": "0.50",
+    "cached_input_per_million_usd": "0.01"
+  },
+  "prompt_versions": {
+    "supervisor": "step6-supervisor-v1.0.0",
+    "analytics": "step6-analytics-v1.0.0",
+    "knowledge": "step6-knowledge-v1.0.0",
+    "synthesis": "step6-synthesis-v1.0.0",
+    "verifier": "step6-verifier-v1.0.0"
+  },
+  "hashes": {
+    "prompt_analytics": "5218c331bd16bd07501a43ee3f3bf26f25d1b19cc151d5c848f06d1522ba5cc8",
+    "prompt_knowledge": "276f4ac27b97fb99eda0ffe08fb338109314d2549c671ca08d0ab49c766ed631",
+    "prompt_supervisor": "7353ff9db0e580553ce1ef3a709041e0a7ec6330de94f9d49b642f8b7dfe457e",
+    "prompt_synthesis": "adfa5b10f75f94e476f02137bd6d2cc00e9240c7336df28f4123aa1c0a212caf",
+    "prompt_verifier": "199f0a4f2dfcf6b45920e12b2b04d69301b197cac3b2da744c42dccd41bb3746",
+    "graph": "e6b85cfa0f9ba6a553363ec32f8da043170fca61959297b2f8aff846759a3227",
+    "verifier": "51d069f0e154892cebc55f40b14323df30a8b1ce0a17c5d48d1e44c18a9f322d",
+    "retrieval": "627ae6d8be9d99acef528aeb3507e792430c75cb9779d32c4a9021b60d7efb29",
+    "provider_adapter": "9073c3cdf19352337a1b746daae6f5c1d76914afc70b261d4f7259faf08989fc",
+    "evaluation_script": "d126bcc073cbf31fe0503ca3cd16af0dbc9c776a585fd0f46c0bdaa26327848d",
+    "live_dev_dataset": "f38d5c192cc34532b936577e8a3befe8417fff282834ea1185524512db72d90f",
+    "live_held_dataset": "2a115810c344c671aacd015924852da17899dcf224f6667a7b35ce82b6e895e8",
+    "verifier_dev_dataset": "22adb412e9a223636ef798c4e4b739259e3bec03dffb69fb86854eff7b51996f",
+    "verifier_test_dataset": "191141c660843e823d2a0717fdb2b840910b53ebe1ea8b962655ed27bc08fe2b",
+    "security_dataset": "9a40b6d66ef6aaf4fd0bb09fb7e3d0da3ae249b2a224ca18781db27aba2a4f90",
+    "source_manifest": "40989425b390d353f632dee8d3fbd2bc7d6701cd9e73e025b8a257400b16c73a",
+    "metric_catalog": "cf050bde7acb96fc7501b311490ed627ccbaa782637e4f0c254f07fbd2f39be3"
+  },
+  "graph_version": "step7-langgraph-1.0.0",
+  "verifier_version": "deterministic-verifier-2.0.0",
+  "embedding_model": "sentence-transformers/all-MiniLM-L6-v2",
+  "default_retrieval_method": "dense",
+  "retrieval_version": "governed-semantic-dense-1.0.0",
+  "fallback_diagnostic_methods": [
+    "BM25",
+    "RRF hybrid"
+  ],
+  "top_k": 5,
+  "max_revision_count": 1,
+  "git_commit": null,
+  "metadata_correction": {
+    "date": "2026-09-28",
+    "previous_stale_retrieval_label": "sentence-transformers/all-MiniLM-L6-v2::governed-hybrid-1.0.0",
+    "reason": "The frozen runtime used metadata-first MiniLM dense retrieval; BM25 and RRF hybrid were fallback/diagnostic methods only.",
+    "configuration_hash_preserved": true,
+    "evaluation_outcomes_changed": false
+  }
+}

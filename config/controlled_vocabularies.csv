@@ -1,0 +1,42 @@
+vocabulary,value,description
+period_grain,QUARTER,Single fiscal quarter
+period_grain,HALF_YEAR,Six-month reporting period
+period_grain,YEAR,Full fiscal year
+period_grain,POINT_IN_TIME,Balance or count at a stated date
+period_grain,QUARTER_YOY,Quarter-over-quarter-year comparison bridge
+period_grain,HALF_YEAR_YOY,Half-year-over-half-year comparison bridge
+provenance_type,REPORTED,Directly stated by the source company
+provenance_type,CALCULATED,Deterministically derived from verified facts
+provenance_type,MANAGEMENT_ATTRIBUTED,Decomposition explicitly attributed by management
+provenance_type,INTERPRETATION,Analytical interpretation of governed evidence
+provenance_type,UNSUPPORTED,Not supported by governed evidence
+provenance_type,AMBIGUOUS,Evidence permits materially different readings
+claim_semantics,REPORTED_FACT,Direct source fact without causal meaning
+claim_semantics,DERIVED_CALCULATION,Deterministic calculation from governed inputs
+claim_semantics,MANAGEMENT_ATTRIBUTION,Management's decomposition without causal proof
+claim_semantics,INTERPRETATION,Analytical interpretation
+claim_semantics,UNSUPPORTED,Unsupported claim that must be refused or qualified
+claim_semantics,AMBIGUOUS,Claim with unresolved meaning
+calculation_type,REPORTED,Directly reported value
+calculation_type,REPORTED_MANAGEMENT_DECOMPOSITION,Reported management decomposition
+calculation_type,REPORTED_RECONCILIATION,Reported reconciliation item
+calculation_type,DETERMINISTIC_CALCULATION,Reproducible deterministic calculation
+value_type,DECIMAL,Decimal numeric value
+value_type,INTEGER,Whole-number value
+confidence_class,HIGH,Verified complete reported evidence
+confidence_class,MEDIUM,Verified calculation or management attribution with limitations
+confidence_class,LOW,Incomplete interpretive or ambiguous evidence
+scope_type,GROUP,Consolidated company scope
+scope_type,BUSINESS_UNIT,Issuer-defined business unit
+scope_type,BUSINESS_AREA,Issuer-defined business area
+scope_type,SEGMENT,Issuer-defined reportable segment
+scope_type,REGION,Geographic scope
+scope_type,PRODUCT_CATEGORY,Product-category scope
+evidence_type,PRIMARY_NUMERIC,Primary numeric evidence
+evidence_type,CORROBORATING_NUMERIC,Independent numeric corroboration
+evidence_type,MANAGEMENT_BRIDGE,Management-reported bridge evidence
+verification_status,VERIFIED,Evidence inspected and matched
+verification_status,PENDING,Evidence identified but not yet verified
+verification_status,REJECTED,Evidence failed validation
+calculation_run_status,SUCCESS,Deterministic execution succeeded
+calculation_run_status,FAILED,Execution failed

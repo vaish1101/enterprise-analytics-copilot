@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="700" viewBox="0 0 1280 700" role="img" aria-labelledby="title desc">
+<title id="title">From business question to supported analysis</title>
+<desc id="desc">React and FastAPI receive the question. A deterministic planner selects governed analytics or authorized documentary retrieval. Evidence assembly feeds structured synthesis, independent verification and a supported answer or clear boundary.</desc>
+<defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#7d8b96"/></marker><style>text{font-family:Arial,Helvetica,sans-serif;fill:#17232d}.h{font-size:23px;font-weight:600}.s{font-size:18px;fill:#52616c}.k{font-size:14px;letter-spacing:2px;fill:#51616e}.n{fill:white;stroke:#d7dfe4;stroke-width:1.5}.f{fill:none;stroke:#7d8b96;stroke-width:2;marker-end:url(#a)}</style></defs>
+<rect width="1280" height="700" rx="20" fill="#f5f6f7"/>
+<text x="48" y="56" class="k">ENTERPRISE ANALYTICS COPILOT</text><text x="48" y="106" font-size="34" font-weight="600">A governed route from question to answer.</text><text x="48" y="140" class="s">Deterministic numerical authority. Bounded synthesis. Explicit release boundaries.</text>
+<rect x="48" y="252" width="218" height="118" rx="14" class="n"/><text x="70" y="289" class="h">Business question</text><text x="70" y="320" class="s">React interface</text><text x="70" y="347" class="s">FastAPI boundary</text><path d="M266 311H309" class="f"/>
+<rect x="314" y="252" width="250" height="118" rx="14" class="n"/><rect x="314" y="252" width="6" height="118" rx="3" fill="#337cac"/><text x="338" y="289" class="h">Planner / router</text><text x="338" y="320" class="s">Deterministic, catalog-led</text><text x="338" y="347" class="s">Metric · scope · period</text>
+<path d="M564 311H587V243H615" class="f"/><path d="M564 311H587V409H615" class="f"/>
+<rect x="620" y="194" width="252" height="110" rx="14" class="n"/><text x="644" y="231" class="h">Governed analytics</text><text x="644" y="262" class="s">Reviewed facts</text><text x="644" y="289" class="s">Deterministic calculations</text>
+<rect x="620" y="358" width="252" height="110" rx="14" class="n" stroke-dasharray="6 5"/><text x="644" y="395" class="h">Document retrieval</text><text x="644" y="426" class="s">Authorized full-local only</text><text x="644" y="453" class="s">Filtered reporting evidence</text>
+<path d="M872 249H899V311H935" class="f"/><path d="M872 413H899V311H935" class="f"/>
+<rect x="940" y="252" width="290" height="118" rx="14" class="n"/><text x="964" y="289" class="h">Evidence assembly</text><text x="964" y="320" class="s">Numbers and documents</text><text x="964" y="347" class="s">retain distinct authority</text><path d="M1085 370V532" class="f"/>
+<rect x="940" y="538" width="290" height="100" rx="14" class="n"/><text x="964" y="574" class="h">Structured synthesis</text><text x="964" y="605" class="s">Typed claims, not free KPIs</text><path d="M940 588H833" class="f"/>
+<rect x="530" y="538" width="298" height="100" rx="14" class="n"/><rect x="530" y="538" width="6" height="100" rx="3" fill="#23856e"/><text x="554" y="574" class="h">Independent verification</text><text x="554" y="605" class="s">Data, lineage and prose checks</text><path d="M530 588H481" class="f"/>
+<rect x="48" y="538" width="428" height="100" rx="14" fill="#e8f3ee" stroke="#b5d6c7"/><text x="72" y="574" class="h" style="font-size:21px">Supported answer or clear boundary</text><text x="72" y="605" class="s">Answer · subset · clarification · refusal</text>
+<text x="48" y="679" class="s">Public demo: numerical facts + template synthesis; no documentary corpus or live-model claim.</text>
+</svg>

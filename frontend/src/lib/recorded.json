@@ -1,0 +1,1562 @@
+{
+  "metadata": {
+    "system_version": "step8-product-1.0.0",
+    "headline": "Governed AI for KPI analysis, variance explanation, document context, and decision support",
+    "companies": [
+      {
+        "id": "henkel",
+        "name": "Henkel",
+        "periods": [
+          "H1 2026",
+          "H1 2025",
+          "Q2 2026",
+          "Q2 2025"
+        ],
+        "scopes": [
+          "Group",
+          "Adhesive Technologies",
+          "Consumer Brands"
+        ]
+      },
+      {
+        "id": "mercedes_benz_group",
+        "name": "Mercedes-Benz",
+        "periods": [
+          "H1 2026",
+          "H1 2025",
+          "Q2 2026",
+          "Q2 2025"
+        ],
+        "scopes": [
+          "Group",
+          "Cars",
+          "Vans",
+          "Mobility"
+        ]
+      },
+      {
+        "id": "siemens",
+        "name": "Siemens",
+        "periods": [
+          "Q2 FY2026",
+          "Q2 FY2025"
+        ],
+        "scopes": [
+          "Group",
+          "Digital Industries",
+          "Smart Infrastructure",
+          "Mobility"
+        ]
+      }
+    ],
+    "examples": [
+      {
+        "category": "Analytics",
+        "questions": [
+          "What were Henkel H1 2026 sales?",
+          "What was Mercedes-Benz Group revenue in H1 2026?"
+        ]
+      },
+      {
+        "category": "Definitions",
+        "questions": [
+          "How does Henkel define organic sales growth?"
+        ]
+      },
+      {
+        "category": "Variance explanation",
+        "questions": [
+          "What drove Mercedes-Benz Cars adjusted EBIT in Q2 2026?"
+        ]
+      },
+      {
+        "category": "Management commentary",
+        "questions": [
+          "What did management report about Mercedes-Benz Mobility EBIT in Q2 2026?"
+        ]
+      },
+      {
+        "category": "Reconciliation",
+        "questions": [
+          "Reconcile Henkel Adhesive Technologies organic growth in H1 2026."
+        ]
+      },
+      {
+        "category": "Governance example",
+        "questions": [
+          "How much Mercedes-Benz Cars EBIT was due to price alone in Q2 2026?"
+        ]
+      }
+    ],
+    "retrieval_model": "none (public numerical-only demo)",
+    "retrieval_method": "disabled; document-dependent answers refuse",
+    "retrieval_version": "public-numerical-demo-1.0.0",
+    "top_k": 5,
+    "graph_version": "step7-langgraph-1.0.0",
+    "verifier_version": "deterministic-verifier-2.1.0",
+    "demo_mode": true,
+    "rights_notice": "Only derived outputs, short governed citations, and official source links are exposed; raw reports and retrieval corpora remain private.",
+    "labels": {
+      "metrics": {
+        "henkel_acquisitions_divestments_effect": {
+          "label": "Acquisitions / divestments effect",
+          "reported_name": "Acquisitions/divestments",
+          "unit": "percentage_point",
+          "company_id": "henkel"
+        },
+        "henkel_fx_effect": {
+          "label": "Foreign exchange effect",
+          "reported_name": "Foreign exchange",
+          "unit": "percentage_point",
+          "company_id": "henkel"
+        },
+        "henkel_nominal_sales_change": {
+          "label": "Nominal sales growth",
+          "reported_name": "Change versus previous year",
+          "unit": "percentage_point",
+          "company_id": "henkel"
+        },
+        "henkel_organic_sales_growth": {
+          "label": "Organic sales growth",
+          "reported_name": "Organic",
+          "unit": "percentage_point",
+          "company_id": "henkel"
+        },
+        "henkel_price_contribution": {
+          "label": "Price contribution to organic growth",
+          "reported_name": "Of which price",
+          "unit": "percentage_point",
+          "company_id": "henkel"
+        },
+        "henkel_sales": {
+          "label": "Sales",
+          "reported_name": "Sales",
+          "unit": "EUR_million",
+          "company_id": "henkel"
+        },
+        "henkel_volume_contribution": {
+          "label": "Volume contribution to organic growth",
+          "reported_name": "Of which volume",
+          "unit": "percentage_point",
+          "company_id": "henkel"
+        },
+        "mercedes_adjusted_ebit": {
+          "label": "Adjusted EBIT",
+          "reported_name": "Adjusted EBIT",
+          "unit": "EUR_million",
+          "company_id": "mercedes_benz_group"
+        },
+        "mercedes_bridge_adjustments": {
+          "label": "Adjustments",
+          "reported_name": "Adjustments",
+          "unit": "EUR_million",
+          "company_id": "mercedes_benz_group"
+        },
+        "mercedes_bridge_cost_of_credit_risk": {
+          "label": "Cost of credit risk",
+          "reported_name": "Cost of credit risk",
+          "unit": "EUR_million",
+          "company_id": "mercedes_benz_group"
+        },
+        "mercedes_bridge_foreign_exchange_rates": {
+          "label": "Foreign exchange rates",
+          "reported_name": "Foreign exchange rates",
+          "unit": "EUR_million",
+          "company_id": "mercedes_benz_group"
+        },
+        "mercedes_bridge_general_administrative_expenses": {
+          "label": "General administrative expenses",
+          "reported_name": "General administrative expenses",
+          "unit": "EUR_million",
+          "company_id": "mercedes_benz_group"
+        },
+        "mercedes_bridge_industrial_performance": {
+          "label": "Industrial performance",
+          "reported_name": "Industrial performance",
+          "unit": "EUR_million",
+          "company_id": "mercedes_benz_group"
+        },
+        "mercedes_bridge_others": {
+          "label": "Others",
+          "reported_name": "Others",
+          "unit": "EUR_million",
+          "company_id": "mercedes_benz_group"
+        },
+        "mercedes_bridge_research_noncapitalized_development": {
+          "label": "Research & non-capitalized development costs",
+          "reported_name": "Research & non-capitalized development costs",
+          "unit": "EUR_million",
+          "company_id": "mercedes_benz_group"
+        },
+        "mercedes_bridge_selling_expenses": {
+          "label": "Selling expenses",
+          "reported_name": "Selling expenses",
+          "unit": "EUR_million",
+          "company_id": "mercedes_benz_group"
+        },
+        "mercedes_bridge_volume_margin": {
+          "label": "Volume / margin",
+          "reported_name": "Volume / margin",
+          "unit": "EUR_million",
+          "company_id": "mercedes_benz_group"
+        },
+        "mercedes_bridge_volume_structure_net_pricing": {
+          "label": "Volume / structure / net pricing",
+          "reported_name": "Volume / structure / net pricing",
+          "unit": "EUR_million",
+          "company_id": "mercedes_benz_group"
+        },
+        "mercedes_ebit": {
+          "label": "EBIT",
+          "reported_name": "EBIT",
+          "unit": "EUR_million",
+          "company_id": "mercedes_benz_group"
+        },
+        "mercedes_revenue": {
+          "label": "Revenue",
+          "reported_name": "Revenue",
+          "unit": "EUR_million",
+          "company_id": "mercedes_benz_group"
+        },
+        "mercedes_unit_sales": {
+          "label": "Unit sales",
+          "reported_name": "Unit sales",
+          "unit": "vehicle",
+          "company_id": "mercedes_benz_group"
+        },
+        "siemens_orders": {
+          "label": "Orders",
+          "reported_name": "Orders",
+          "unit": "EUR_million",
+          "company_id": "siemens"
+        },
+        "siemens_profit_industrial_business": {
+          "label": "Industrial Business profit",
+          "reported_name": "Profit Industrial Business",
+          "unit": "EUR_million",
+          "company_id": "siemens"
+        },
+        "siemens_profit_margin_industrial_business": {
+          "label": "Industrial Business profit margin",
+          "reported_name": "Profit margin Industrial Business",
+          "unit": "percentage_point",
+          "company_id": "siemens"
+        },
+        "siemens_revenue": {
+          "label": "Revenue",
+          "reported_name": "Revenue",
+          "unit": "EUR_million",
+          "company_id": "siemens"
+        },
+        "siemens_segment_profit": {
+          "label": "Segment profit",
+          "reported_name": "Profit",
+          "unit": "EUR_million",
+          "company_id": "siemens"
+        },
+        "siemens_segment_profit_margin": {
+          "label": "Segment profit margin",
+          "reported_name": "Profit margin",
+          "unit": "percentage_point",
+          "company_id": "siemens"
+        }
+      },
+      "scopes": {
+        "henkel_adhesive_technologies": {
+          "label": "Adhesive Technologies",
+          "company_id": "henkel",
+          "scope_type": "BUSINESS_UNIT"
+        },
+        "henkel_consumer_brands": {
+          "label": "Consumer Brands",
+          "company_id": "henkel",
+          "scope_type": "BUSINESS_UNIT"
+        },
+        "henkel_craftsmen_construction_professional": {
+          "label": "Craftsmen, Construction & Professional",
+          "company_id": "henkel",
+          "scope_type": "BUSINESS_AREA"
+        },
+        "henkel_group": {
+          "label": "Henkel Group",
+          "company_id": "henkel",
+          "scope_type": "GROUP"
+        },
+        "henkel_hair": {
+          "label": "Hair",
+          "company_id": "henkel",
+          "scope_type": "BUSINESS_AREA"
+        },
+        "henkel_laundry_home_care": {
+          "label": "Laundry & Home Care",
+          "company_id": "henkel",
+          "scope_type": "BUSINESS_AREA"
+        },
+        "henkel_mobility_electronics": {
+          "label": "Mobility & Electronics",
+          "company_id": "henkel",
+          "scope_type": "BUSINESS_AREA"
+        },
+        "henkel_other_consumer_businesses": {
+          "label": "Other Consumer Businesses",
+          "company_id": "henkel",
+          "scope_type": "BUSINESS_AREA"
+        },
+        "henkel_packaging_consumer_goods": {
+          "label": "Packaging & Consumer Goods",
+          "company_id": "henkel",
+          "scope_type": "BUSINESS_AREA"
+        },
+        "mercedes_cars": {
+          "label": "Mercedes-Benz Cars",
+          "company_id": "mercedes_benz_group",
+          "scope_type": "SEGMENT"
+        },
+        "mercedes_financial_services": {
+          "label": "Mercedes-Benz Mobility",
+          "company_id": "mercedes_benz_group",
+          "scope_type": "SEGMENT"
+        },
+        "mercedes_group": {
+          "label": "Mercedes-Benz Group",
+          "company_id": "mercedes_benz_group",
+          "scope_type": "GROUP"
+        },
+        "mercedes_vans": {
+          "label": "Mercedes-Benz Vans",
+          "company_id": "mercedes_benz_group",
+          "scope_type": "SEGMENT"
+        },
+        "siemens_digital_industries": {
+          "label": "Digital Industries",
+          "company_id": "siemens",
+          "scope_type": "SEGMENT"
+        },
+        "siemens_group": {
+          "label": "Siemens Group",
+          "company_id": "siemens",
+          "scope_type": "GROUP"
+        },
+        "siemens_mobility": {
+          "label": "Siemens Mobility",
+          "company_id": "siemens",
+          "scope_type": "SEGMENT"
+        },
+        "siemens_smart_infrastructure": {
+          "label": "Smart Infrastructure",
+          "company_id": "siemens",
+          "scope_type": "SEGMENT"
+        }
+      },
+      "periods": [
+        {
+          "company_id": "henkel",
+          "period_id": "H1_2025",
+          "period_grain": "HALF_YEAR",
+          "label": "H1 2025",
+          "fiscal": false
+        },
+        {
+          "company_id": "henkel",
+          "period_id": "H1_2026",
+          "period_grain": "HALF_YEAR",
+          "label": "H1 2026",
+          "fiscal": false
+        },
+        {
+          "company_id": "henkel",
+          "period_id": "Q2_2025",
+          "period_grain": "QUARTER",
+          "label": "Q2 2025",
+          "fiscal": false
+        },
+        {
+          "company_id": "henkel",
+          "period_id": "Q2_2026",
+          "period_grain": "QUARTER",
+          "label": "Q2 2026",
+          "fiscal": false
+        },
+        {
+          "company_id": "mercedes_benz_group",
+          "period_id": "H1_2025",
+          "period_grain": "HALF_YEAR",
+          "label": "H1 2025",
+          "fiscal": false
+        },
+        {
+          "company_id": "mercedes_benz_group",
+          "period_id": "H1_2026",
+          "period_grain": "HALF_YEAR",
+          "label": "H1 2026",
+          "fiscal": false
+        },
+        {
+          "company_id": "mercedes_benz_group",
+          "period_id": "Q2_2025",
+          "period_grain": "QUARTER",
+          "label": "Q2 2025",
+          "fiscal": false
+        },
+        {
+          "company_id": "mercedes_benz_group",
+          "period_id": "Q2_2026",
+          "period_grain": "QUARTER",
+          "label": "Q2 2026",
+          "fiscal": false
+        },
+        {
+          "company_id": "mercedes_benz_group",
+          "period_id": "Q2_2026",
+          "period_grain": "QUARTER_YOY",
+          "label": "Q2 2026 vs Q2 2025",
+          "fiscal": false
+        },
+        {
+          "company_id": "siemens",
+          "period_id": "Q2_2025",
+          "period_grain": "QUARTER",
+          "label": "Q2 FY2025",
+          "fiscal": true
+        },
+        {
+          "company_id": "siemens",
+          "period_id": "Q2_2026",
+          "period_grain": "QUARTER",
+          "label": "Q2 FY2026",
+          "fiscal": true
+        }
+      ]
+    },
+    "provider_mode": "test"
+  },
+  "responses": {
+    "What were Henkel H1 2026 sales?": {
+      "request_id": "recorded",
+      "session_id": "recorded",
+      "status": "COMPLETED",
+      "route": "ANALYTICS_ONLY",
+      "answer": "Reported: Sales, henkel_group, H1_2026: 10348 EUR_million.",
+      "claims": [
+        {
+          "claim_id": "claim_001",
+          "provenance": "REPORTED",
+          "text": "Reported: Sales, henkel_group, H1_2026: 10348 EUR_million.",
+          "company_id": "henkel",
+          "metric_id": "henkel_sales",
+          "business_scope": "henkel_group",
+          "periods": [
+            "H1_2026"
+          ],
+          "value": "10348",
+          "unit": "EUR_million",
+          "fact_ids": [
+            4
+          ],
+          "calculation_run_ids": [],
+          "evidence_ids": [
+            "evidence_0004"
+          ]
+        }
+      ],
+      "citations": [],
+      "limitations": [],
+      "verification": {
+        "verdict": "PASS",
+        "label": "Verified",
+        "supported_claims": 1,
+        "total_claims": 1,
+        "errors": []
+      },
+      "provenance_summary": [
+        {
+          "provenance": "REPORTED",
+          "count": 1
+        }
+      ],
+      "execution": {
+        "analytics_used": true,
+        "retrieval_used": false,
+        "revision_used": false,
+        "provider_calls": 0,
+        "verifier_interventions": 0,
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "cost_usd": "0",
+        "stages": []
+      },
+      "latency_ms": 0,
+      "provider": "sample",
+      "model": "recorded-numerical-demo",
+      "clarification_question": null,
+      "refusal_reason": null,
+      "analytics": {
+        "operation": "RETRIEVE",
+        "primary": {
+          "fact_id": 4,
+          "company_id": "henkel",
+          "metric_id": "henkel_sales",
+          "label": "Sales",
+          "business_scope": "henkel_group",
+          "period": "H1_2026",
+          "period_grain": "HALF_YEAR",
+          "value": "10348",
+          "unit": "EUR_million",
+          "provenance": "REPORTED",
+          "bridge_role": null,
+          "component_order": null
+        },
+        "comparison": null,
+        "changes": [],
+        "components": [],
+        "supporting": [],
+        "ranked": [],
+        "reconciliations": [],
+        "calculation_run_ids": [],
+        "warnings": [],
+        "limitations": []
+      },
+      "fact_sources": [
+        {
+          "fact_id": 4,
+          "source_id": "henkel_h1_2026_financial_report",
+          "source_title": "Henkel Half-year Financial Report 2026",
+          "official_url": "https://www.henkel.com/resource/blob/2216938/fc11c44023e1fed5781ccfe4ed6ee360/data/2026-henkel-half-year-financial-report.pdf",
+          "source_type": "pdf",
+          "location": "Sales development table",
+          "page_or_sheet": "PDF page 7",
+          "cell_or_range": null,
+          "evidence_type": "PRIMARY_NUMERIC"
+        }
+      ],
+      "clarification_options": [],
+      "alternatives": []
+    },
+    "What was Siemens revenue in Q2 2026?": {
+      "request_id": "recorded",
+      "session_id": "recorded",
+      "status": "COMPLETED",
+      "route": "ANALYTICS_ONLY",
+      "answer": "Reported: Revenue, siemens_group, Q2_2026: 19756 EUR_million.",
+      "claims": [
+        {
+          "claim_id": "claim_001",
+          "provenance": "REPORTED",
+          "text": "Reported: Revenue, siemens_group, Q2_2026: 19756 EUR_million.",
+          "company_id": "siemens",
+          "metric_id": "siemens_revenue",
+          "business_scope": "siemens_group",
+          "periods": [
+            "Q2_2026"
+          ],
+          "value": "19756",
+          "unit": "EUR_million",
+          "fact_ids": [
+            167
+          ],
+          "calculation_run_ids": [],
+          "evidence_ids": [
+            "evidence_0167"
+          ]
+        }
+      ],
+      "citations": [],
+      "limitations": [],
+      "verification": {
+        "verdict": "PASS",
+        "label": "Verified",
+        "supported_claims": 1,
+        "total_claims": 1,
+        "errors": []
+      },
+      "provenance_summary": [
+        {
+          "provenance": "REPORTED",
+          "count": 1
+        }
+      ],
+      "execution": {
+        "analytics_used": true,
+        "retrieval_used": false,
+        "revision_used": false,
+        "provider_calls": 0,
+        "verifier_interventions": 0,
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "cost_usd": "0",
+        "stages": []
+      },
+      "latency_ms": 0,
+      "provider": "sample",
+      "model": "recorded-numerical-demo",
+      "clarification_question": null,
+      "refusal_reason": null,
+      "analytics": {
+        "operation": "RETRIEVE",
+        "primary": {
+          "fact_id": 167,
+          "company_id": "siemens",
+          "metric_id": "siemens_revenue",
+          "label": "Revenue",
+          "business_scope": "siemens_group",
+          "period": "Q2_2026",
+          "period_grain": "QUARTER",
+          "value": "19756",
+          "unit": "EUR_million",
+          "provenance": "REPORTED",
+          "bridge_role": null,
+          "component_order": null
+        },
+        "comparison": null,
+        "changes": [],
+        "components": [],
+        "supporting": [],
+        "ranked": [],
+        "reconciliations": [],
+        "calculation_run_ids": [],
+        "warnings": [],
+        "limitations": []
+      },
+      "fact_sources": [
+        {
+          "fact_id": 167,
+          "source_id": "siemens_q2_fy2026_earnings_release",
+          "source_title": "Siemens Earnings Release Q2 FY 2026",
+          "official_url": "https://assets.new.siemens.com/siemens/assets/api/uuid:d4072f41-f21d-4287-af75-0cb72c194262/HQCOPR202605117394EN.pdf",
+          "source_type": "pdf",
+          "location": "Q2 key figures and segment tables",
+          "page_or_sheet": "PDF pages 2-3",
+          "cell_or_range": null,
+          "evidence_type": "PRIMARY_NUMERIC"
+        }
+      ],
+      "clarification_options": [],
+      "alternatives": []
+    },
+    "Calculate the difference between Henkel H1 2025 sales and H1 2026 sales.": {
+      "request_id": "recorded",
+      "session_id": "recorded",
+      "status": "COMPLETED",
+      "route": "ANALYTICS_ONLY",
+      "answer": "Reported: Sales, henkel_group, H1_2026: 10348 EUR_million. Reported: Sales, henkel_group, H1_2025: 10402 EUR_million. Calculated absolute change: Sales, henkel_group, H1_2026, H1_2025: -54 EUR_million. Calculated percent change: Sales, henkel_group, H1_2026, H1_2025: -0.5191309363583926168044606806 percent.",
+      "claims": [
+        {
+          "claim_id": "claim_001",
+          "provenance": "REPORTED",
+          "text": "Reported: Sales, henkel_group, H1_2026: 10348 EUR_million.",
+          "company_id": "henkel",
+          "metric_id": "henkel_sales",
+          "business_scope": "henkel_group",
+          "periods": [
+            "H1_2026"
+          ],
+          "value": "10348",
+          "unit": "EUR_million",
+          "fact_ids": [
+            4
+          ],
+          "calculation_run_ids": [],
+          "evidence_ids": [
+            "evidence_0004"
+          ]
+        },
+        {
+          "claim_id": "claim_002",
+          "provenance": "REPORTED",
+          "text": "Reported: Sales, henkel_group, H1_2025: 10402 EUR_million.",
+          "company_id": "henkel",
+          "metric_id": "henkel_sales",
+          "business_scope": "henkel_group",
+          "periods": [
+            "H1_2025"
+          ],
+          "value": "10402",
+          "unit": "EUR_million",
+          "fact_ids": [
+            3
+          ],
+          "calculation_run_ids": [],
+          "evidence_ids": [
+            "evidence_0003"
+          ]
+        },
+        {
+          "claim_id": "claim_003",
+          "provenance": "CALCULATED",
+          "text": "Calculated absolute change: Sales, henkel_group, H1_2026, H1_2025: -54 EUR_million.",
+          "company_id": "henkel",
+          "metric_id": "henkel_sales",
+          "business_scope": "henkel_group",
+          "periods": [
+            "H1_2026",
+            "H1_2025"
+          ],
+          "value": "-54",
+          "unit": "EUR_million",
+          "fact_ids": [
+            4,
+            3
+          ],
+          "calculation_run_ids": [
+            "run_f1c2439cc601a83f"
+          ],
+          "evidence_ids": [
+            "evidence_0004",
+            "evidence_0003"
+          ]
+        },
+        {
+          "claim_id": "claim_004",
+          "provenance": "CALCULATED",
+          "text": "Calculated percent change: Sales, henkel_group, H1_2026, H1_2025: -0.5191309363583926168044606806 percent.",
+          "company_id": "henkel",
+          "metric_id": "henkel_sales",
+          "business_scope": "henkel_group",
+          "periods": [
+            "H1_2026",
+            "H1_2025"
+          ],
+          "value": "-0.5191309363583926168044606806",
+          "unit": "percent",
+          "fact_ids": [
+            4,
+            3
+          ],
+          "calculation_run_ids": [
+            "run_be6960a400950efc"
+          ],
+          "evidence_ids": [
+            "evidence_0004",
+            "evidence_0003"
+          ]
+        }
+      ],
+      "citations": [],
+      "limitations": [],
+      "verification": {
+        "verdict": "PASS",
+        "label": "Verified",
+        "supported_claims": 4,
+        "total_claims": 4,
+        "errors": []
+      },
+      "provenance_summary": [
+        {
+          "provenance": "CALCULATED",
+          "count": 2
+        },
+        {
+          "provenance": "REPORTED",
+          "count": 2
+        }
+      ],
+      "execution": {
+        "analytics_used": true,
+        "retrieval_used": false,
+        "revision_used": false,
+        "provider_calls": 0,
+        "verifier_interventions": 0,
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "cost_usd": "0",
+        "stages": []
+      },
+      "latency_ms": 0,
+      "provider": "sample",
+      "model": "recorded-numerical-demo",
+      "clarification_question": null,
+      "refusal_reason": null,
+      "analytics": {
+        "operation": "PERIOD_COMPARISON",
+        "primary": {
+          "fact_id": 4,
+          "company_id": "henkel",
+          "metric_id": "henkel_sales",
+          "label": "Sales",
+          "business_scope": "henkel_group",
+          "period": "H1_2026",
+          "period_grain": "HALF_YEAR",
+          "value": "10348",
+          "unit": "EUR_million",
+          "provenance": "REPORTED",
+          "bridge_role": null,
+          "component_order": null
+        },
+        "comparison": {
+          "fact_id": 3,
+          "company_id": "henkel",
+          "metric_id": "henkel_sales",
+          "label": "Sales",
+          "business_scope": "henkel_group",
+          "period": "H1_2025",
+          "period_grain": "HALF_YEAR",
+          "value": "10402",
+          "unit": "EUR_million",
+          "provenance": "REPORTED",
+          "bridge_role": null,
+          "component_order": null
+        },
+        "changes": [
+          {
+            "kind": "absolute",
+            "value": "-54",
+            "unit": "EUR_million",
+            "calculation_run_id": "run_f1c2439cc601a83f"
+          },
+          {
+            "kind": "percent",
+            "value": "-0.5191309363583926168044606806",
+            "unit": "percent",
+            "calculation_run_id": "run_be6960a400950efc"
+          }
+        ],
+        "components": [],
+        "supporting": [],
+        "ranked": [],
+        "reconciliations": [],
+        "calculation_run_ids": [
+          "run_f1c2439cc601a83f",
+          "run_be6960a400950efc"
+        ],
+        "warnings": [],
+        "limitations": []
+      },
+      "fact_sources": [
+        {
+          "fact_id": 4,
+          "source_id": "henkel_h1_2026_financial_report",
+          "source_title": "Henkel Half-year Financial Report 2026",
+          "official_url": "https://www.henkel.com/resource/blob/2216938/fc11c44023e1fed5781ccfe4ed6ee360/data/2026-henkel-half-year-financial-report.pdf",
+          "source_type": "pdf",
+          "location": "Sales development table",
+          "page_or_sheet": "PDF page 7",
+          "cell_or_range": null,
+          "evidence_type": "PRIMARY_NUMERIC"
+        },
+        {
+          "fact_id": 3,
+          "source_id": "henkel_h1_2026_financial_report",
+          "source_title": "Henkel Half-year Financial Report 2026",
+          "official_url": "https://www.henkel.com/resource/blob/2216938/fc11c44023e1fed5781ccfe4ed6ee360/data/2026-henkel-half-year-financial-report.pdf",
+          "source_type": "pdf",
+          "location": "Sales development table",
+          "page_or_sheet": "PDF page 7",
+          "cell_or_range": null,
+          "evidence_type": "PRIMARY_NUMERIC"
+        }
+      ],
+      "clarification_options": [],
+      "alternatives": []
+    },
+    "How did Mercedes-Benz Group revenue change from Q2 2025 to Q2 2026?": {
+      "request_id": "recorded",
+      "session_id": "recorded",
+      "status": "COMPLETED",
+      "route": "ANALYTICS_ONLY",
+      "answer": "Reported: Revenue, mercedes_group, Q2_2026: 32061 EUR_million. Reported: Revenue, mercedes_group, Q2_2025: 33153 EUR_million. Calculated absolute change: Revenue, mercedes_group, Q2_2026, Q2_2025: -1092 EUR_million. Calculated percent change: Revenue, mercedes_group, Q2_2026, Q2_2025: -3.293819563840376436521581757 percent.",
+      "claims": [
+        {
+          "claim_id": "claim_001",
+          "provenance": "REPORTED",
+          "text": "Reported: Revenue, mercedes_group, Q2_2026: 32061 EUR_million.",
+          "company_id": "mercedes_benz_group",
+          "metric_id": "mercedes_revenue",
+          "business_scope": "mercedes_group",
+          "periods": [
+            "Q2_2026"
+          ],
+          "value": "32061",
+          "unit": "EUR_million",
+          "fact_ids": [
+            86
+          ],
+          "calculation_run_ids": [],
+          "evidence_ids": [
+            "evidence_0086"
+          ]
+        },
+        {
+          "claim_id": "claim_002",
+          "provenance": "REPORTED",
+          "text": "Reported: Revenue, mercedes_group, Q2_2025: 33153 EUR_million.",
+          "company_id": "mercedes_benz_group",
+          "metric_id": "mercedes_revenue",
+          "business_scope": "mercedes_group",
+          "periods": [
+            "Q2_2025"
+          ],
+          "value": "33153",
+          "unit": "EUR_million",
+          "fact_ids": [
+            85
+          ],
+          "calculation_run_ids": [],
+          "evidence_ids": [
+            "evidence_0085"
+          ]
+        },
+        {
+          "claim_id": "claim_003",
+          "provenance": "CALCULATED",
+          "text": "Calculated absolute change: Revenue, mercedes_group, Q2_2026, Q2_2025: -1092 EUR_million.",
+          "company_id": "mercedes_benz_group",
+          "metric_id": "mercedes_revenue",
+          "business_scope": "mercedes_group",
+          "periods": [
+            "Q2_2026",
+            "Q2_2025"
+          ],
+          "value": "-1092",
+          "unit": "EUR_million",
+          "fact_ids": [
+            86,
+            85
+          ],
+          "calculation_run_ids": [
+            "run_5a1c8f2401991ed3"
+          ],
+          "evidence_ids": [
+            "evidence_0086",
+            "evidence_0085"
+          ]
+        },
+        {
+          "claim_id": "claim_004",
+          "provenance": "CALCULATED",
+          "text": "Calculated percent change: Revenue, mercedes_group, Q2_2026, Q2_2025: -3.293819563840376436521581757 percent.",
+          "company_id": "mercedes_benz_group",
+          "metric_id": "mercedes_revenue",
+          "business_scope": "mercedes_group",
+          "periods": [
+            "Q2_2026",
+            "Q2_2025"
+          ],
+          "value": "-3.293819563840376436521581757",
+          "unit": "percent",
+          "fact_ids": [
+            86,
+            85
+          ],
+          "calculation_run_ids": [
+            "run_1a828ef5627c1a3a"
+          ],
+          "evidence_ids": [
+            "evidence_0086",
+            "evidence_0085"
+          ]
+        }
+      ],
+      "citations": [],
+      "limitations": [],
+      "verification": {
+        "verdict": "PASS",
+        "label": "Verified",
+        "supported_claims": 4,
+        "total_claims": 4,
+        "errors": []
+      },
+      "provenance_summary": [
+        {
+          "provenance": "CALCULATED",
+          "count": 2
+        },
+        {
+          "provenance": "REPORTED",
+          "count": 2
+        }
+      ],
+      "execution": {
+        "analytics_used": true,
+        "retrieval_used": false,
+        "revision_used": false,
+        "provider_calls": 0,
+        "verifier_interventions": 0,
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "cost_usd": "0",
+        "stages": []
+      },
+      "latency_ms": 0,
+      "provider": "sample",
+      "model": "recorded-numerical-demo",
+      "clarification_question": null,
+      "refusal_reason": null,
+      "analytics": {
+        "operation": "PERIOD_COMPARISON",
+        "primary": {
+          "fact_id": 86,
+          "company_id": "mercedes_benz_group",
+          "metric_id": "mercedes_revenue",
+          "label": "Revenue",
+          "business_scope": "mercedes_group",
+          "period": "Q2_2026",
+          "period_grain": "QUARTER",
+          "value": "32061",
+          "unit": "EUR_million",
+          "provenance": "REPORTED",
+          "bridge_role": null,
+          "component_order": null
+        },
+        "comparison": {
+          "fact_id": 85,
+          "company_id": "mercedes_benz_group",
+          "metric_id": "mercedes_revenue",
+          "label": "Revenue",
+          "business_scope": "mercedes_group",
+          "period": "Q2_2025",
+          "period_grain": "QUARTER",
+          "value": "33153",
+          "unit": "EUR_million",
+          "provenance": "REPORTED",
+          "bridge_role": null,
+          "component_order": null
+        },
+        "changes": [
+          {
+            "kind": "absolute",
+            "value": "-1092",
+            "unit": "EUR_million",
+            "calculation_run_id": "run_5a1c8f2401991ed3"
+          },
+          {
+            "kind": "percent",
+            "value": "-3.293819563840376436521581757",
+            "unit": "percent",
+            "calculation_run_id": "run_1a828ef5627c1a3a"
+          }
+        ],
+        "components": [],
+        "supporting": [],
+        "ranked": [],
+        "reconciliations": [],
+        "calculation_run_ids": [
+          "run_5a1c8f2401991ed3",
+          "run_1a828ef5627c1a3a"
+        ],
+        "warnings": [],
+        "limitations": []
+      },
+      "fact_sources": [
+        {
+          "fact_id": 86,
+          "source_id": "mercedes_q2_2026_fact_sheet_xlsx",
+          "source_title": "Mercedes-Benz Group Fact Sheet Q2 2026 XLSX",
+          "official_url": "https://group.mercedes-benz.com/documents/investors/reports/interim-reports/q2/mercedes-benz-fact-sheet-q2-2026.xlsx",
+          "source_type": "xlsx",
+          "location": "Key Figures",
+          "page_or_sheet": "Sheet 4",
+          "cell_or_range": "G9 and J9",
+          "evidence_type": "CORROBORATING_NUMERIC"
+        },
+        {
+          "fact_id": 85,
+          "source_id": "mercedes_q2_2026_fact_sheet_xlsx",
+          "source_title": "Mercedes-Benz Group Fact Sheet Q2 2026 XLSX",
+          "official_url": "https://group.mercedes-benz.com/documents/investors/reports/interim-reports/q2/mercedes-benz-fact-sheet-q2-2026.xlsx",
+          "source_type": "xlsx",
+          "location": "Key Figures",
+          "page_or_sheet": "Sheet 4",
+          "cell_or_range": "C9 and I9",
+          "evidence_type": "CORROBORATING_NUMERIC"
+        }
+      ],
+      "clarification_options": [],
+      "alternatives": []
+    },
+    "What drove Mercedes-Benz Cars adjusted EBIT in Q2 2026?": {
+      "request_id": "recorded",
+      "session_id": "recorded",
+      "status": "REFUSED",
+      "route": "DECOMPOSITION_EXPLANATION",
+      "answer": "I cannot provide the requested documentary context because no governed evidence was available.",
+      "claims": [],
+      "citations": [],
+      "limitations": [
+        "MANAGEMENT_ATTRIBUTION_NOT_CAUSAL",
+        "COMBINED_COMPONENT_NOT_SPLIT"
+      ],
+      "verification": null,
+      "provenance_summary": [],
+      "execution": {
+        "analytics_used": true,
+        "retrieval_used": true,
+        "revision_used": false,
+        "provider_calls": 0,
+        "verifier_interventions": 0,
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "cost_usd": "0",
+        "stages": []
+      },
+      "latency_ms": 0,
+      "provider": "sample",
+      "model": "recorded-numerical-demo",
+      "clarification_question": null,
+      "refusal_reason": "REQUIRED_DOCUMENT_EVIDENCE_UNAVAILABLE",
+      "analytics": null,
+      "fact_sources": [],
+      "clarification_options": [],
+      "alternatives": []
+    },
+    "What drove Henkel organic sales growth in H1 2026?": {
+      "request_id": "recorded",
+      "session_id": "recorded",
+      "status": "REFUSED",
+      "route": "DECOMPOSITION_EXPLANATION",
+      "answer": "I cannot provide the requested documentary context because no governed evidence was available.",
+      "claims": [],
+      "citations": [],
+      "limitations": [
+        "MANAGEMENT_ATTRIBUTION_NOT_CAUSAL"
+      ],
+      "verification": null,
+      "provenance_summary": [],
+      "execution": {
+        "analytics_used": true,
+        "retrieval_used": true,
+        "revision_used": false,
+        "provider_calls": 0,
+        "verifier_interventions": 0,
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "cost_usd": "0",
+        "stages": []
+      },
+      "latency_ms": 0,
+      "provider": "sample",
+      "model": "recorded-numerical-demo",
+      "clarification_question": null,
+      "refusal_reason": "REQUIRED_DOCUMENT_EVIDENCE_UNAVAILABLE",
+      "analytics": null,
+      "fact_sources": [],
+      "clarification_options": [],
+      "alternatives": []
+    },
+    "How does Henkel define organic sales growth?": {
+      "request_id": "recorded",
+      "session_id": "recorded",
+      "status": "REFUSED",
+      "route": "KNOWLEDGE_ONLY",
+      "answer": "I cannot provide the requested documentary context because no governed evidence was available.",
+      "claims": [],
+      "citations": [],
+      "limitations": [],
+      "verification": null,
+      "provenance_summary": [],
+      "execution": {
+        "analytics_used": false,
+        "retrieval_used": true,
+        "revision_used": true,
+        "provider_calls": 0,
+        "verifier_interventions": 1,
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "cost_usd": "0",
+        "stages": []
+      },
+      "latency_ms": 0,
+      "provider": "sample",
+      "model": "recorded-numerical-demo",
+      "clarification_question": null,
+      "refusal_reason": "REQUIRED_DOCUMENT_EVIDENCE_UNAVAILABLE",
+      "analytics": null,
+      "fact_sources": [],
+      "clarification_options": [],
+      "alternatives": []
+    },
+    "How does Siemens define Industrial Business profit?": {
+      "request_id": "recorded",
+      "session_id": "recorded",
+      "status": "REFUSED",
+      "route": "KNOWLEDGE_ONLY",
+      "answer": "I cannot provide the requested documentary context because no governed evidence was available.",
+      "claims": [],
+      "citations": [],
+      "limitations": [],
+      "verification": null,
+      "provenance_summary": [],
+      "execution": {
+        "analytics_used": false,
+        "retrieval_used": true,
+        "revision_used": true,
+        "provider_calls": 0,
+        "verifier_interventions": 1,
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "cost_usd": "0",
+        "stages": []
+      },
+      "latency_ms": 0,
+      "provider": "sample",
+      "model": "recorded-numerical-demo",
+      "clarification_question": null,
+      "refusal_reason": "REQUIRED_DOCUMENT_EVIDENCE_UNAVAILABLE",
+      "analytics": null,
+      "fact_sources": [],
+      "clarification_options": [],
+      "alternatives": []
+    },
+    "What did management say about Mercedes-Benz Cars adjusted EBIT in Q2 2026?": {
+      "request_id": "recorded",
+      "session_id": "recorded",
+      "status": "REFUSED",
+      "route": "KNOWLEDGE_ONLY",
+      "answer": "I cannot provide the requested documentary context because no governed evidence was available.",
+      "claims": [],
+      "citations": [],
+      "limitations": [],
+      "verification": null,
+      "provenance_summary": [],
+      "execution": {
+        "analytics_used": false,
+        "retrieval_used": true,
+        "revision_used": true,
+        "provider_calls": 0,
+        "verifier_interventions": 1,
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "cost_usd": "0",
+        "stages": []
+      },
+      "latency_ms": 0,
+      "provider": "sample",
+      "model": "recorded-numerical-demo",
+      "clarification_question": null,
+      "refusal_reason": "REQUIRED_DOCUMENT_EVIDENCE_UNAVAILABLE",
+      "analytics": null,
+      "fact_sources": [],
+      "clarification_options": [],
+      "alternatives": []
+    },
+    "What did management say about Henkel organic sales growth in H1 2026?": {
+      "request_id": "recorded",
+      "session_id": "recorded",
+      "status": "REFUSED",
+      "route": "KNOWLEDGE_ONLY",
+      "answer": "I cannot provide the requested documentary context because no governed evidence was available.",
+      "claims": [],
+      "citations": [],
+      "limitations": [],
+      "verification": null,
+      "provenance_summary": [],
+      "execution": {
+        "analytics_used": false,
+        "retrieval_used": true,
+        "revision_used": true,
+        "provider_calls": 0,
+        "verifier_interventions": 1,
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "cost_usd": "0",
+        "stages": []
+      },
+      "latency_ms": 0,
+      "provider": "sample",
+      "model": "recorded-numerical-demo",
+      "clarification_question": null,
+      "refusal_reason": "REQUIRED_DOCUMENT_EVIDENCE_UNAVAILABLE",
+      "analytics": null,
+      "fact_sources": [],
+      "clarification_options": [],
+      "alternatives": []
+    },
+    "Where does the Henkel sales figure for H1 2026 come from?": {
+      "request_id": "recorded",
+      "session_id": "recorded",
+      "status": "COMPLETED",
+      "route": "ANALYTICS_ONLY",
+      "answer": "Reported: Sales, henkel_group, H1_2026: 10348 EUR_million.",
+      "claims": [
+        {
+          "claim_id": "claim_001",
+          "provenance": "REPORTED",
+          "text": "Reported: Sales, henkel_group, H1_2026: 10348 EUR_million.",
+          "company_id": "henkel",
+          "metric_id": "henkel_sales",
+          "business_scope": "henkel_group",
+          "periods": [
+            "H1_2026"
+          ],
+          "value": "10348",
+          "unit": "EUR_million",
+          "fact_ids": [
+            4
+          ],
+          "calculation_run_ids": [],
+          "evidence_ids": [
+            "evidence_0004"
+          ]
+        }
+      ],
+      "citations": [],
+      "limitations": [],
+      "verification": {
+        "verdict": "PASS",
+        "label": "Verified",
+        "supported_claims": 1,
+        "total_claims": 1,
+        "errors": []
+      },
+      "provenance_summary": [
+        {
+          "provenance": "REPORTED",
+          "count": 1
+        }
+      ],
+      "execution": {
+        "analytics_used": true,
+        "retrieval_used": false,
+        "revision_used": false,
+        "provider_calls": 0,
+        "verifier_interventions": 0,
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "cost_usd": "0",
+        "stages": []
+      },
+      "latency_ms": 0,
+      "provider": "sample",
+      "model": "recorded-numerical-demo",
+      "clarification_question": null,
+      "refusal_reason": null,
+      "analytics": {
+        "operation": "RETRIEVE",
+        "primary": {
+          "fact_id": 4,
+          "company_id": "henkel",
+          "metric_id": "henkel_sales",
+          "label": "Sales",
+          "business_scope": "henkel_group",
+          "period": "H1_2026",
+          "period_grain": "HALF_YEAR",
+          "value": "10348",
+          "unit": "EUR_million",
+          "provenance": "REPORTED",
+          "bridge_role": null,
+          "component_order": null
+        },
+        "comparison": null,
+        "changes": [],
+        "components": [],
+        "supporting": [],
+        "ranked": [],
+        "reconciliations": [],
+        "calculation_run_ids": [],
+        "warnings": [],
+        "limitations": []
+      },
+      "fact_sources": [
+        {
+          "fact_id": 4,
+          "source_id": "henkel_h1_2026_financial_report",
+          "source_title": "Henkel Half-year Financial Report 2026",
+          "official_url": "https://www.henkel.com/resource/blob/2216938/fc11c44023e1fed5781ccfe4ed6ee360/data/2026-henkel-half-year-financial-report.pdf",
+          "source_type": "pdf",
+          "location": "Sales development table",
+          "page_or_sheet": "PDF page 7",
+          "cell_or_range": null,
+          "evidence_type": "PRIMARY_NUMERIC"
+        }
+      ],
+      "clarification_options": [],
+      "alternatives": []
+    },
+    "Show the source for Henkel sales in H1 2026": {
+      "request_id": "recorded",
+      "session_id": "recorded",
+      "status": "COMPLETED",
+      "route": "ANALYTICS_ONLY",
+      "answer": "Reported: Sales, henkel_group, H1_2026: 10348 EUR_million.",
+      "claims": [
+        {
+          "claim_id": "claim_001",
+          "provenance": "REPORTED",
+          "text": "Reported: Sales, henkel_group, H1_2026: 10348 EUR_million.",
+          "company_id": "henkel",
+          "metric_id": "henkel_sales",
+          "business_scope": "henkel_group",
+          "periods": [
+            "H1_2026"
+          ],
+          "value": "10348",
+          "unit": "EUR_million",
+          "fact_ids": [
+            4
+          ],
+          "calculation_run_ids": [],
+          "evidence_ids": [
+            "evidence_0004"
+          ]
+        }
+      ],
+      "citations": [],
+      "limitations": [],
+      "verification": {
+        "verdict": "PASS",
+        "label": "Verified",
+        "supported_claims": 1,
+        "total_claims": 1,
+        "errors": []
+      },
+      "provenance_summary": [
+        {
+          "provenance": "REPORTED",
+          "count": 1
+        }
+      ],
+      "execution": {
+        "analytics_used": true,
+        "retrieval_used": false,
+        "revision_used": false,
+        "provider_calls": 0,
+        "verifier_interventions": 0,
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "cost_usd": "0",
+        "stages": []
+      },
+      "latency_ms": 0,
+      "provider": "sample",
+      "model": "recorded-numerical-demo",
+      "clarification_question": null,
+      "refusal_reason": null,
+      "analytics": {
+        "operation": "RETRIEVE",
+        "primary": {
+          "fact_id": 4,
+          "company_id": "henkel",
+          "metric_id": "henkel_sales",
+          "label": "Sales",
+          "business_scope": "henkel_group",
+          "period": "H1_2026",
+          "period_grain": "HALF_YEAR",
+          "value": "10348",
+          "unit": "EUR_million",
+          "provenance": "REPORTED",
+          "bridge_role": null,
+          "component_order": null
+        },
+        "comparison": null,
+        "changes": [],
+        "components": [],
+        "supporting": [],
+        "ranked": [],
+        "reconciliations": [],
+        "calculation_run_ids": [],
+        "warnings": [],
+        "limitations": []
+      },
+      "fact_sources": [
+        {
+          "fact_id": 4,
+          "source_id": "henkel_h1_2026_financial_report",
+          "source_title": "Henkel Half-year Financial Report 2026",
+          "official_url": "https://www.henkel.com/resource/blob/2216938/fc11c44023e1fed5781ccfe4ed6ee360/data/2026-henkel-half-year-financial-report.pdf",
+          "source_type": "pdf",
+          "location": "Sales development table",
+          "page_or_sheet": "PDF page 7",
+          "cell_or_range": null,
+          "evidence_type": "PRIMARY_NUMERIC"
+        }
+      ],
+      "clarification_options": [],
+      "alternatives": []
+    },
+    "How much Mercedes-Benz Cars EBIT was due to price alone in Q2 2026?": {
+      "request_id": "recorded",
+      "session_id": "recorded",
+      "status": "REFUSED",
+      "route": "UNSUPPORTED",
+      "answer": "Mercedes-Benz does not disclose a separate governed price contribution here; the source only supports the combined 'Volume / structure / net pricing' bridge component.",
+      "claims": [],
+      "citations": [],
+      "limitations": [],
+      "verification": null,
+      "provenance_summary": [],
+      "execution": {
+        "analytics_used": false,
+        "retrieval_used": false,
+        "revision_used": false,
+        "provider_calls": 0,
+        "verifier_interventions": 0,
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "cost_usd": "0",
+        "stages": []
+      },
+      "latency_ms": 0,
+      "provider": "sample",
+      "model": "recorded-numerical-demo",
+      "clarification_question": null,
+      "refusal_reason": "Mercedes-Benz does not disclose a separate governed price contribution here; the source only supports the combined 'Volume / structure / net pricing' bridge component.",
+      "analytics": null,
+      "fact_sources": [],
+      "clarification_options": [],
+      "alternatives": []
+    },
+    "What were Henkel sales?": {
+      "request_id": "recorded",
+      "session_id": "recorded",
+      "status": "NEEDS_CLARIFICATION",
+      "route": "NEEDS_CLARIFICATION",
+      "answer": "Should the plan use Q2 2026, H1 2026, Q2 2025, or H1 2025?",
+      "claims": [],
+      "citations": [],
+      "limitations": [],
+      "verification": null,
+      "provenance_summary": [],
+      "execution": {
+        "analytics_used": false,
+        "retrieval_used": false,
+        "revision_used": false,
+        "provider_calls": 0,
+        "verifier_interventions": 0,
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "cost_usd": "0",
+        "stages": []
+      },
+      "latency_ms": 0,
+      "provider": "sample",
+      "model": "recorded-numerical-demo",
+      "clarification_question": "Should the plan use Q2 2026, H1 2026, Q2 2025, or H1 2025?",
+      "refusal_reason": null,
+      "analytics": null,
+      "fact_sources": [],
+      "clarification_options": [],
+      "alternatives": []
+    },
+    "What will Henkel sales be next year?": {
+      "request_id": "recorded",
+      "session_id": "recorded",
+      "status": "NEEDS_CLARIFICATION",
+      "route": "NEEDS_CLARIFICATION",
+      "answer": "Should the plan use Q2 2026, H1 2026, Q2 2025, or H1 2025?",
+      "claims": [],
+      "citations": [],
+      "limitations": [],
+      "verification": null,
+      "provenance_summary": [],
+      "execution": {
+        "analytics_used": false,
+        "retrieval_used": false,
+        "revision_used": false,
+        "provider_calls": 0,
+        "verifier_interventions": 0,
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "cost_usd": "0",
+        "stages": []
+      },
+      "latency_ms": 0,
+      "provider": "sample",
+      "model": "recorded-numerical-demo",
+      "clarification_question": "Should the plan use Q2 2026, H1 2026, Q2 2025, or H1 2025?",
+      "refusal_reason": null,
+      "analytics": null,
+      "fact_sources": [],
+      "clarification_options": [],
+      "alternatives": []
+    }
+  }
+}

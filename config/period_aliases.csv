@@ -1,0 +1,11 @@
+alias,period_id,period_grain
+q2 2026,Q2_2026,QUARTER
+second quarter 2026,Q2_2026,QUARTER
+h1 2026,H1_2026,HALF_YEAR
+first half 2026,H1_2026,HALF_YEAR
+first half-year 2026,H1_2026,HALF_YEAR
+q2 2025,Q2_2025,QUARTER
+second quarter 2025,Q2_2025,QUARTER
+h1 2025,H1_2025,HALF_YEAR
+first half 2025,H1_2025,HALF_YEAR
+first half-year 2025,H1_2025,HALF_YEAR

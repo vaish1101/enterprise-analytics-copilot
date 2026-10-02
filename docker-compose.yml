@@ -1,0 +1,62 @@
+services:
+  api:
+    build:
+      context: .
+      target: private-runtime
+    volumes:
+      - ./data/retrieval/local/evidence_units.jsonl:/app/data/retrieval/local/evidence_units.jsonl:ro
+      - ./data/retrieval/local/model_cache:/app/data/retrieval/local/model_cache:ro
+    ports:
+      - "8000:8000"
+    environment:
+      APP_MODE: ${APP_MODE:-development}
+      RETRIEVAL_BACKEND: pgvector
+      DATABASE_URL: ${DATABASE_URL:?Supply a private database connection through local configuration}
+      CHECKPOINT_BACKEND: postgres
+      CHECKPOINT_URI: ${CHECKPOINT_URI:?Supply private checkpoint connection locally}
+      SESSION_DATABASE_URL: ${SESSION_DATABASE_URL:?Supply private session connection locally}
+      CORS_ORIGINS: http://localhost:8000
+      LLM_PROVIDER: ${LLM_PROVIDER:-}
+      LLM_MODEL: ${LLM_MODEL:-}
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      LLM_TIMEOUT_SECONDS: ${LLM_TIMEOUT_SECONDS:-}
+      LLM_MAX_RETRIES: ${LLM_MAX_RETRIES:-}
+    depends_on:
+      postgres:
+        condition: service_healthy
+      retrieval-init:
+        condition: service_completed_successfully
+    restart: unless-stopped
+
+  retrieval-init:
+    build:
+      context: .
+      target: private-runtime
+    volumes:
+      - ./data/retrieval/local/evidence_units.jsonl:/app/data/retrieval/local/evidence_units.jsonl:ro
+      - ./data/retrieval/local/model_cache:/app/data/retrieval/local/model_cache:ro
+    command: ["python", "scripts/load_pgvector_evidence.py"]
+    environment:
+      DATABASE_URL: ${DATABASE_URL:?Supply a private database connection through local configuration}
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: "no"
+
+  postgres:
+    image: pgvector/pgvector:pg17
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:?Set the database name locally}
+      POSTGRES_USER: ${POSTGRES_USER:?Set the database role locally}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set a private password locally}
+    volumes:
+      - step8_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U \"$$POSTGRES_USER\" -d \"$$POSTGRES_DB\""]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    restart: unless-stopped
+
+volumes:
+  step8_pgdata:

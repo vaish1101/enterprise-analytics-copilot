@@ -1,0 +1,20 @@
+{"question_id":"s7sa01","question":"What was Siemens Group revenue in Q2 2026?","expected_route":"ANALYTICS_ONLY","expected_status":"COMPLETED"}
+{"question_id":"s7sa02","question":"What were Siemens orders in Q2 2026?","expected_route":"ANALYTICS_ONLY","expected_status":"COMPLETED"}
+{"question_id":"s7sa03","question":"What was Siemens Profit Industrial Business in Q2 2026?","expected_route":"ANALYTICS_ONLY","expected_status":"COMPLETED"}
+{"question_id":"s7sa04","question":"What was Siemens Profit margin Industrial Business in Q2 2026?","expected_route":"ANALYTICS_ONLY","expected_status":"COMPLETED"}
+{"question_id":"s7sa05","question":"What was Siemens Digital Industries revenue in Q2 2026?","expected_route":"ANALYTICS_ONLY","expected_status":"COMPLETED"}
+{"question_id":"s7sa06","question":"What was Siemens Smart Infrastructure segment profit in Q2 2026?","expected_route":"ANALYTICS_ONLY","expected_status":"COMPLETED"}
+{"question_id":"s7sa07","question":"What was Siemens Mobility segment profit margin in Q2 2026?","expected_route":"ANALYTICS_ONLY","expected_status":"COMPLETED"}
+{"question_id":"s7sa08","question":"How did Siemens revenue change from Q2 2025 to Q2 2026?","expected_route":"ANALYTICS_ONLY","expected_status":"COMPLETED"}
+{"question_id":"s7sa09","question":"How did Siemens Digital Industries orders change from Q2 2025 to Q2 2026?","expected_route":"ANALYTICS_ONLY","expected_status":"COMPLETED"}
+{"question_id":"s7sa10","question":"How did Siemens Smart Infrastructure revenue change from Q2 2025 to Q2 2026?","expected_route":"ANALYTICS_ONLY","expected_status":"COMPLETED"}
+{"question_id":"s7sa11","question":"What does Siemens Profit Industrial Business mean?","expected_route":"KNOWLEDGE_ONLY","expected_status":"COMPLETED"}
+{"question_id":"s7sa12","question":"According to the report what was Siemens Group revenue in Q2 2026?","expected_route":"KNOWLEDGE_ONLY","expected_status":"COMPLETED"}
+{"question_id":"s7sa13","question":"According to the report what was Siemens Digital Industries segment profit in Q2 2026?","expected_route":"KNOWLEDGE_ONLY","expected_status":"COMPLETED"}
+{"question_id":"s7sa14","question":"According to the report what was Siemens Smart Infrastructure segment profit in Q2 2026?","expected_route":"KNOWLEDGE_ONLY","expected_status":"COMPLETED"}
+{"question_id":"s7sa15","question":"According to the report what was Siemens Mobility revenue in Q2 2026?","expected_route":"KNOWLEDGE_ONLY","expected_status":"COMPLETED"}
+{"question_id":"s7sa16","question":"Why did Siemens revenue change in Q2 2026?","expected_route":"HYBRID","expected_status":"REFUSED"}
+{"question_id":"s7sa17","question":"What drove Siemens Smart Infrastructure segment profit in Q2 2026?","expected_route":"DECOMPOSITION_EXPLANATION","expected_status":"REFUSED"}
+{"question_id":"s7sa18","question":"What was revenue in Q2 2026?","expected_route":"NEEDS_CLARIFICATION","expected_status":"NEEDS_CLARIFICATION"}
+{"question_id":"s7sa19","question":"What was Siemens free cash flow in Q2 2026?","expected_route":"UNSUPPORTED","expected_status":"REFUSED"}
+{"question_id":"s7sa20","question":"Compare Siemens revenue with Henkel sales in Q2 2026.","expected_route":"UNSUPPORTED","expected_status":"REFUSED"}

@@ -1,0 +1,9 @@
+{"question_id":"s7ld01","question":"What were Henkel H1 2026 sales?","expected_route":"ANALYTICS_ONLY","expected_status":"COMPLETED"}
+{"question_id":"s7ld02","question":"How does Henkel define organic sales growth?","expected_route":"KNOWLEDGE_ONLY","expected_status":"COMPLETED"}
+{"question_id":"s7ld03","question":"Why did Mercedes-Benz Cars adjusted EBIT change in Q2 2026?","expected_route":"HYBRID","expected_status":"COMPLETED"}
+{"question_id":"s7ld04","question":"What contributed to Henkel organic growth in H1 2026?","expected_route":"DECOMPOSITION_EXPLANATION","expected_status":"COMPLETED"}
+{"question_id":"s7ld05","question":"What was revenue in Q2 2026?","expected_route":"NEEDS_CLARIFICATION","expected_status":"NEEDS_CLARIFICATION"}
+{"question_id":"s7ld06","question":"What was BMW revenue in Q2 2026?","expected_route":"UNSUPPORTED","expected_status":"REFUSED"}
+{"question_id":"s7ld07","question":"How did Mercedes-Benz Cars adjusted EBIT change from Q2 2025 to Q2 2026?","expected_route":"ANALYTICS_ONLY","expected_status":"COMPLETED"}
+{"question_id":"s7ld08","question":"Reconcile Henkel Adhesive Technologies organic growth in H1 2026.","expected_route":"DECOMPOSITION_EXPLANATION","expected_status":"COMPLETED"}
+

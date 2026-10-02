@@ -1,0 +1,6 @@
+rule_id,company,equation,unit,default_tolerance,notes
+henkel_price_volume_to_organic,henkel,price_contribution + volume_contribution = organic_sales_growth,percentage_point,0.1,Explicit tolerance accepts the known displayed rounding difference without changing source values.
+henkel_sales_change_bridge,henkel,fx_effect + acquisitions_divestments_effect + organic_sales_growth = nominal_sales_change,percentage_point,0.1,Components and result are compared at disclosed precision.
+mercedes_bridge_to_adjusted_ebit,mercedes_benz_group,bridge_start + sum(components) = adjusted_ebit_endpoint,EUR_million,0,Applies to the management-reported Q2 bridge at published EUR-million precision.
+mercedes_adjusted_to_reported_ebit,mercedes_benz_group,adjusted_ebit + adjustments = reported_ebit,EUR_million,0,Adjustment sign must follow the presentation bridge direction.
+

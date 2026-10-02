@@ -1,0 +1,42 @@
+version: step5.5-retrieval-config-1.0.0
+default_method: dense
+top_k: 5
+lexical:
+  implementation: BM25
+  k1: 1.5
+  b: 0.75
+dense:
+  provider: sentence-transformers/all-MiniLM-L6-v2
+  dimension: 384
+  distance: cosine
+  network_required: false
+  model_download_required_once: true
+hashing_baseline:
+  provider: governed-hashing-word-char-v1
+  dimension: 384
+hybrid:
+  fusion: reciprocal_rank_fusion
+  rrf_k: 60
+  tested_weights:
+    lexical: 1.0
+    dense: 2.0
+  retained_as_default: false
+reranker:
+  tested: false
+  retained: false
+no_evidence:
+  require_all_metadata_filters: true
+  unsupported_mercedes_price_split: reject
+versions:
+  parser: pdf-pypdf-structure-1.0.0
+  chunking: governed-structure-1.0.0
+  embedding_index: local-cosine-flat-1.0.0
+  retrieval: governed-semantic-dense-1.0.0
+  fusion: rrf-k60-1.0.0
+  evaluation: step5.5-semantic-eval-1.0.0
+pgvector:
+  live_tested: true
+  postgresql_version: "17.11"
+  extension_version: "0.8.6"
+  index: hnsw_vector_cosine_ops
+  indexed_count: 2016

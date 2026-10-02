@@ -1,0 +1,18 @@
+scope_id,company_id,label
+henkel_group,henkel,Henkel Group
+henkel_adhesive_technologies,henkel,Adhesive Technologies
+henkel_consumer_brands,henkel,Consumer Brands
+henkel_mobility_electronics,henkel,Mobility & Electronics
+henkel_packaging_consumer_goods,henkel,Packaging & Consumer Goods
+henkel_craftsmen_construction_professional,henkel,"Craftsmen, Construction & Professional"
+henkel_laundry_home_care,henkel,Laundry & Home Care
+henkel_hair,henkel,Hair
+henkel_other_consumer_businesses,henkel,Other Consumer Businesses
+mercedes_group,mercedes_benz_group,Mercedes-Benz Group
+mercedes_cars,mercedes_benz_group,Mercedes-Benz Cars
+mercedes_vans,mercedes_benz_group,Mercedes-Benz Vans
+mercedes_financial_services,mercedes_benz_group,Mercedes-Benz Mobility
+siemens_group,siemens,Siemens Group
+siemens_digital_industries,siemens,Digital Industries
+siemens_smart_infrastructure,siemens,Smart Infrastructure
+siemens_mobility,siemens,Siemens Mobility

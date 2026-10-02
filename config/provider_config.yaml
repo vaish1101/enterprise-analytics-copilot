@@ -1,0 +1,11 @@
+provider_env: LLM_PROVIDER
+model_env: LLM_MODEL
+api_key_env: OPENAI_API_KEY
+timeout_seconds_env: LLM_TIMEOUT_SECONDS
+max_provider_attempts_env: LLM_MAX_RETRIES
+default_timeout_seconds: 60
+default_max_provider_attempts: 2
+temperature: schema_provider_default
+structured_output: pydantic_responses_parse
+checkpoint_backend_env: CHECKPOINT_BACKEND
+checkpoint_uri_env: CHECKPOINT_URI

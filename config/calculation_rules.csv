@@ -1,0 +1,9 @@
+rule_id,rule_version,operation,allowed_units,description
+ABSOLUTE_CHANGE_V1,1.0.0,ABSOLUTE_CHANGE,EUR_million|vehicle,Current value minus comparison value.
+PERCENT_CHANGE_V1,1.0.0,PERCENT_CHANGE,EUR_million|vehicle,For policy-approved metrics absolute change divided by a positive comparison value times 100; otherwise percentage is unavailable.
+PERCENTAGE_POINT_CHANGE_V1,1.0.0,PERCENTAGE_POINT_CHANGE,percentage_point,Current rate minus comparison rate in percentage points.
+HENKEL_ORGANIC_RECONCILIATION_V1,1.0.0,RECONCILIATION,percentage_point,Price contribution plus volume contribution reconciles to organic sales growth.
+HENKEL_NOMINAL_BRIDGE_V1,1.0.0,RECONCILIATION,percentage_point,FX plus acquisitions/divestments plus organic growth reconciles to nominal sales change.
+MERCEDES_EBIT_BRIDGE_V1,1.0.0,RECONCILIATION,EUR_million,Prior adjusted EBIT plus management bridge components reconciles to current adjusted EBIT.
+MERCEDES_ADJUSTED_TO_REPORTED_EBIT_V1,1.0.0,RECONCILIATION,EUR_million,Adjusted EBIT plus the presentation-direction adjustment reconciles to reported EBIT.
+RANK_CONTRIBUTIONS_V1,1.0.0,RANKING,EUR_million|percentage_point,Orders governed components within one decomposition without causal interpretation.

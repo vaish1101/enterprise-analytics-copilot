@@ -1,0 +1,16 @@
+{
+  "core_freeze_hash": "18c3a496e4bca2a577959b6dcf06466b938c79fbbb70172f6bc4b9f991dc9729",
+  "frozen_at": "2026-09-24T20:35:00+02:00",
+  "file_count": 48,
+  "scope": "planner, analytics, retrieval algorithm, LangGraph, LLM providers, verifier, contradiction detector, persistence, prompts, and evaluation scripts",
+  "live_dev_dataset_sha256": "f38d5c192cc34532b936577e8a3befe8417fff282834ea1185524512db72d90f",
+  "live_test_dataset_sha256": "2a115810c344c671aacd015924852da17899dcf224f6667a7b35ce82b6e895e8",
+  "security_dataset_sha256": "9a40b6d66ef6aaf4fd0bb09fb7e3d0da3ae249b2a224ca18781db27aba2a4f90",
+  "prompt_hashes": {
+    "analytics.md": "5218c331bd16bd07501a43ee3f3bf26f25d1b19cc151d5c848f06d1522ba5cc8",
+    "knowledge.md": "276f4ac27b97fb99eda0ffe08fb338109314d2549c671ca08d0ab49c766ed631",
+    "supervisor.md": "7353ff9db0e580553ce1ef3a709041e0a7ec6330de94f9d49b642f8b7dfe457e",
+    "synthesis.md": "adfa5b10f75f94e476f02137bd6d2cc00e9240c7336df28f4123aa1c0a212caf",
+    "verifier.md": "199f0a4f2dfcf6b45920e12b2b04d69301b197cac3b2da744c42dccd41bb3746"
+  }
+}

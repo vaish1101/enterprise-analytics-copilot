@@ -1,0 +1,28 @@
+metric_id,display_label
+henkel_sales,Sales
+henkel_nominal_sales_change,Nominal sales growth
+henkel_organic_sales_growth,Organic sales growth
+henkel_fx_effect,Foreign exchange effect
+henkel_acquisitions_divestments_effect,Acquisitions / divestments effect
+henkel_price_contribution,Price contribution to organic growth
+henkel_volume_contribution,Volume contribution to organic growth
+mercedes_revenue,Revenue
+mercedes_ebit,EBIT
+mercedes_adjusted_ebit,Adjusted EBIT
+mercedes_unit_sales,Unit sales
+mercedes_bridge_volume_structure_net_pricing,Volume / structure / net pricing
+mercedes_bridge_foreign_exchange_rates,Foreign exchange rates
+mercedes_bridge_industrial_performance,Industrial performance
+mercedes_bridge_selling_expenses,Selling expenses
+mercedes_bridge_general_administrative_expenses,General administrative expenses
+mercedes_bridge_research_noncapitalized_development,Research & non-capitalized development costs
+mercedes_bridge_others,Others
+mercedes_bridge_adjustments,Adjustments
+mercedes_bridge_cost_of_credit_risk,Cost of credit risk
+mercedes_bridge_volume_margin,Volume / margin
+siemens_orders,Orders
+siemens_revenue,Revenue
+siemens_profit_industrial_business,Industrial Business profit
+siemens_profit_margin_industrial_business,Industrial Business profit margin
+siemens_segment_profit,Segment profit
+siemens_segment_profit_margin,Segment profit margin

@@ -1,0 +1,21 @@
+{
+  "version": "bounded-agents-development-0.1",
+  "scope": "New development-only scripted fixtures; no held cases or live-model evaluation claims",
+  "cases": [
+    {"id":"dev_fact_stop","question":"Give the governed Henkel group sales figure for H1 2026.","expected":"COMPLETED"},
+    {"id":"dev_comparison","question":"Calculate the change in Henkel group sales from H1 2025 to H1 2026.","initial":"lookup","follow_up":"task","expected":"COMPLETED"},
+    {"id":"dev_bridge","question":"Inspect the reported Mercedes-Benz Cars adjusted EBIT bridge for Q2 2026.","initial":"reconcile","expected":"COMPLETED"},
+    {"id":"dev_helped","question":"What helped Mercedes-Benz Cars adjusted EBIT in Q2 2026?","initial":"rank_positive","expected":"COMPLETED"},
+    {"id":"dev_hurt","question":"What hurt Mercedes-Benz Cars adjusted EBIT in Q2 2026?","initial":"rank_negative","expected":"COMPLETED"},
+    {"id":"dev_largest","question":"Rank the largest negative reported bridge contributions for Mercedes-Benz Cars adjusted EBIT in Q2 2026.","initial":"reconcile","follow_up":"rank_negative","expected":"COMPLETED"},
+    {"id":"dev_document","question":"Explain the definition of Henkel organic sales growth.","search":"definition","expected":"COMPLETED"},
+    {"id":"dev_hybrid","question":"What was Henkel H1 2026 sales according to management?","search":"lexical","expected":"COMPLETED"},
+    {"id":"dev_insufficient","question":"Explain the definition of Henkel organic sales growth.","empty_corpus":true,"expected":"REFUSED"},
+    {"id":"dev_ambiguous","question":"Investigate adjusted EBIT.","expected":"NEEDS_CLARIFICATION"},
+    {"id":"dev_unsupported","question":"Isolate solely the price contribution to Mercedes-Benz Cars adjusted EBIT in Q2 2026.","expected":"REFUSED"},
+    {"id":"dev_critic_causal","question":"Inspect the reported Mercedes-Benz Cars adjusted EBIT bridge for Q2 2026.","critic":"causal_overclaim","expected":"COMPLETED"},
+    {"id":"dev_critic_omission","question":"Inspect the reported Mercedes-Benz Cars adjusted EBIT bridge for Q2 2026.","critic":"missing_limitation","expected":"COMPLETED"},
+    {"id":"dev_evidence_follow","question":"Explain the definition of Henkel organic sales growth.","search":"lexical","search_follow_up":"definition","expected":"COMPLETED"},
+    {"id":"dev_critic_reject","question":"Inspect the reported Mercedes-Benz Cars adjusted EBIT bridge for Q2 2026.","critic":"misleading_attribution","reject":true,"expected":"REFUSED"}
+  ]
+}

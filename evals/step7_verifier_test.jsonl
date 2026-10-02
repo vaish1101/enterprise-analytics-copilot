@@ -1,0 +1,11 @@
+{"case_id":"vtest01","question":"What was Mercedes-Benz Group revenue in Q2 2026?","mutation":"wrong_number","should_detect":true,"faulty_text":"Revenue was 32,601 million euros."}
+{"case_id":"vtest02","question":"What was Mercedes-Benz Group revenue in Q2 2026?","mutation":"wrong_unit","should_detect":true,"faulty_text":"Revenue was 32,061 vehicles."}
+{"case_id":"vtest03","question":"What was Mercedes-Benz Group revenue in Q2 2026?","mutation":"wrong_period","should_detect":true,"faulty_text":"The Q2 2025 value was 32,061 million euros."}
+{"case_id":"vtest04","question":"What contributed to Mercedes-Benz Cars adjusted EBIT in Q2 2026?","mutation":"wrong_metric","should_detect":true,"faulty_text":"The component was reported revenue rather than adjusted EBIT context."}
+{"case_id":"vtest05","question":"What contributed to Mercedes-Benz Cars adjusted EBIT in Q2 2026?","mutation":"causal","should_detect":true,"faulty_text":"Industrial performance caused reported EBIT."}
+{"case_id":"vtest06","question":"How does Henkel define organic sales growth?","mutation":"citation_laundering","should_detect":true,"faulty_text":"A source outside the retrieved top five supports this claim."}
+{"case_id":"vtest07","question":"What were Henkel H1 2026 sales?","mutation":"unsupported_interpretation","should_detect":true,"faulty_text":"This confirms a permanent improvement in market share."}
+{"case_id":"vtest08","question":"What were Henkel H1 2026 sales?","mutation":"missing_lineage","should_detect":true,"faulty_text":"A calculated number with no inputs."}
+{"case_id":"vtest09","question":"What was Mercedes-Benz Group revenue in Q2 2026?","mutation":"clean","should_detect":false,"faulty_text":"The exact governed reported claim."}
+{"case_id":"vtest10","question":"What contributed to Mercedes-Benz Cars adjusted EBIT in Q2 2026?","mutation":"clean","should_detect":false,"faulty_text":"Management-reported bridge claims without causal promotion."}
+

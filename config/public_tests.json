@@ -1,0 +1,26 @@
+{
+  "description": "Credential-free public regression selection. No corporate corpora, model downloads, live provider calls or held evaluators.",
+  "tests": [
+    "tests/test_acquisition.py",
+    "tests/test_analytics_executor.py",
+    "tests/test_catalog_sql_alignment.py",
+    "tests/test_manifest.py",
+    "tests/test_metric_catalog.py",
+    "tests/test_planning_models.py",
+    "tests/test_question_planner.py",
+    "tests/test_reconciliation.py",
+    "tests/test_schemas.py",
+    "tests/test_sql_contracts.py",
+    "tests/test_step3_evaluator.py",
+    "tests/test_step4_evaluator.py",
+    "tests/test_step7_siemens_onboarding.py",
+    "tests/test_release_gate_a_p1.py::test_limiter_peer_isolation_expiry_and_address_privacy",
+    "tests/test_release_gate_a_p1.py::test_limiter_parallel_requests_cannot_exceed_quota",
+    "tests/test_release_gate_a_p1.py::test_public_demo_without_private_assets",
+    "tests/test_release_gate_a_p1.py::test_public_demo_cannot_silently_enable_in_production",
+    "tests/test_public_release.py",
+    "tests/test_public_presentation.py",
+    "tests/test_public_baseline_controls.py"
+  ],
+  "excluded_scope": "Corpus-dependent ingestion, retrieval, orchestration and full-local API integration remain in the authorized full relevant suite. Frozen held evaluation scripts are never invoked."
+}

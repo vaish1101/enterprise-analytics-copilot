@@ -1,0 +1,20 @@
+{"case_id":"vdev01","question":"What were Henkel H1 2026 sales?","mutation":"wrong_number","should_detect":true,"faulty_text":"Henkel sales were 10,438 million euros."}
+{"case_id":"vdev02","question":"What were Henkel H1 2026 sales?","mutation":"rounded_number","should_detect":true,"faulty_text":"Henkel sales were about 10.3 billion euros."}
+{"case_id":"vdev03","question":"What were Henkel H1 2026 sales?","mutation":"wrong_unit","should_detect":true,"faulty_text":"Henkel sales were 10,348 million US dollars."}
+{"case_id":"vdev04","question":"What were Henkel H1 2026 sales?","mutation":"wrong_period","should_detect":true,"faulty_text":"Henkel sales were 10,348 million euros in H1 2025."}
+{"case_id":"vdev05","question":"What were Henkel H1 2026 sales?","mutation":"wrong_scope","should_detect":true,"faulty_text":"Adhesive Technologies sales were 10,348 million euros."}
+{"case_id":"vdev06","question":"What were Henkel H1 2026 sales?","mutation":"wrong_company","should_detect":true,"faulty_text":"Mercedes-Benz sales were 10,348 million euros."}
+{"case_id":"vdev07","question":"What were Henkel H1 2026 sales?","mutation":"wrong_metric","should_detect":true,"faulty_text":"Henkel organic growth was 10,348 million euros."}
+{"case_id":"vdev08","question":"What contributed to Mercedes-Benz Cars adjusted EBIT in Q2 2026?","mutation":"bridge_sign","should_detect":true,"faulty_text":"The volume / structure / net pricing bridge was positive 602 million euros."}
+{"case_id":"vdev09","question":"What contributed to Mercedes-Benz Cars adjusted EBIT in Q2 2026?","mutation":"causal","should_detect":true,"faulty_text":"Net pricing caused the entire EBIT decline."}
+{"case_id":"vdev10","question":"How does Henkel define organic sales growth?","mutation":"wrong_citation","should_detect":true,"faulty_text":"The definition is supported by an unrelated page."}
+{"case_id":"vdev11","question":"How does Henkel define organic sales growth?","mutation":"missing_citation","should_detect":true,"faulty_text":"Organic growth has this definition with no source."}
+{"case_id":"vdev12","question":"How does Henkel define organic sales growth?","mutation":"wrong_period_citation","should_detect":true,"faulty_text":"A Q1 1999 source supports the definition."}
+{"case_id":"vdev13","question":"How does Henkel define organic sales growth?","mutation":"wrong_scope_citation","should_detect":true,"faulty_text":"An unrelated scope supports the definition."}
+{"case_id":"vdev14","question":"What were Henkel H1 2026 sales?","mutation":"provenance","should_detect":true,"faulty_text":"The reported number was independently calculated."}
+{"case_id":"vdev15","question":"What were Henkel H1 2026 sales?","mutation":"missing_lineage","should_detect":true,"faulty_text":"The calculated result has no input lineage."}
+{"case_id":"vdev16","question":"What were Henkel H1 2026 sales?","mutation":"unsupported_interpretation","should_detect":true,"faulty_text":"This proves demand will accelerate next year."}
+{"case_id":"vdev17","question":"Reconcile Henkel Adhesive Technologies organic growth in H1 2026.","mutation":"rounding_omitted","should_detect":true,"faulty_text":"The bridge reconciles exactly."}
+{"case_id":"vdev18","question":"How did Mercedes-Benz Cars adjusted EBIT change from Q2 2025 to Q2 2026?","mutation":"invented_percentage","should_detect":true,"faulty_text":"Adjusted EBIT fell by 26 percent."}
+{"case_id":"vdev19","question":"What were Henkel H1 2026 sales?","mutation":"clean","should_detect":false,"faulty_text":"The exact governed reported claim."}
+{"case_id":"vdev20","question":"Reconcile Henkel Adhesive Technologies organic growth in H1 2026.","mutation":"clean","should_detect":false,"faulty_text":"The governed reconciliation including its rounding caveat."}

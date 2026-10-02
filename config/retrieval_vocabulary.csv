@@ -1,0 +1,11 @@
+term_type,company_id,metric_id,term,source
+source_label,henkel,henkel_organic_sales_growth,Organic,metric_catalog
+source_label,henkel,henkel_price_contribution,Of which price,metric_catalog
+source_label,henkel,henkel_volume_contribution,Of which volume,metric_catalog
+source_label,mercedes_benz_group,mercedes_adjusted_ebit,EBIT adjusted,source_document
+source_label,mercedes_benz_group,mercedes_bridge_volume_structure_net_pricing,Volume / structure / net pricing,source_document
+source_label,mercedes_benz_group,mercedes_bridge_foreign_exchange_rates,Foreign exchange rates,source_document
+source_label,mercedes_benz_group,mercedes_bridge_cost_of_credit_risk,Cost of credit risk,source_document
+scope_label,mercedes_benz_group,,Mercedes-Benz Cars,business_scope_aliases
+scope_label,mercedes_benz_group,,Mercedes-Benz Vans,business_scope_aliases
+scope_label,mercedes_benz_group,,Mercedes-Benz Financial Services,business_scope_aliases

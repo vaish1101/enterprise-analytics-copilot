@@ -1,0 +1,53 @@
+.DS_Store
+/.publication-private/
+/tmp/
+/artifacts/
+/docs/step*.md
+/docs/design_concepts/
+/docs/screenshots/
+/docs/release_gate_a*.md
+*.log
+*.sqlite
+*.sqlite3
+*.db
+*.dump
+*.safetensors
+*.npy
+*.npz
+*.pem
+*.key
+*.pdf
+*.xlsx
+*.xls
+.idea/
+.vscode/
+.vercel/
+coverage/
+/assets/screenshots/temporary/
+/assets/demo/temporary/
+
+# Publisher-owned source documents are acquired locally and are not redistributed.
+/data/raw_sources/
+
+# Source-derived text, embeddings, and local indexes are rights-restricted.
+/data/retrieval/local/
+
+# Python runtime artifacts.
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+.env
+.env.*
+!.env.example
+/data/checkpoints/
+
+# Step 8 frontend and browser-test artifacts.
+/frontend/node_modules/
+/frontend/dist/
+/frontend/coverage/
+/frontend/test-results/
+/frontend/playwright-report/
+/frontend/*.tsbuildinfo
+/frontend/vite.config.js
+/frontend/vite.config.d.ts
