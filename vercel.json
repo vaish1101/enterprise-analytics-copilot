@@ -4,7 +4,6 @@
   "framework": null,
   "git": {
     "deploymentEnabled": {
-      "codex/publication-release-review": false,
       "feature/multi-agent-analytics": false
     }
   },
