@@ -18,7 +18,8 @@ class MetricsStore:
             if response.status not in {"COMPLETED", "REFUSED", "NEEDS_CLARIFICATION"}:
                 self.counters["errors"] += 1
             self.counters["revisions"] += int(response.execution.revision_used)
-            self.counters["provider_calls"] += response.execution.provider_calls
+            self.counters["provider_calls"] += response.execution.provider_calls or 0
+            self.counters["provider_calls_unknown"] += int(response.execution.provider_calls is None)
             self.counters["input_tokens"] += response.execution.input_tokens
             self.counters["output_tokens"] += response.execution.output_tokens
             self.counters["latency_ms"] += response.latency_ms
@@ -41,7 +42,7 @@ class MetricsStore:
                 "clarification": self.counters["needs_clarification"],
                 "errors": self.counters["errors"],
                 "revisions": self.counters["revisions"],
-                "provider_calls": self.counters["provider_calls"],
+                "provider_calls": None if self.counters["provider_calls_unknown"] else self.counters["provider_calls"],
                 "input_tokens": self.counters["input_tokens"],
                 "output_tokens": self.counters["output_tokens"],
                 "estimated_cost_usd": str(self.counters["cost_usd"]),

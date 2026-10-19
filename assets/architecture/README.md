@@ -4,5 +4,6 @@
 authority, authorized retrieval, persistence and external synthesis. SVG titles
 and descriptions provide accessible alternatives.
 
-Both are editable project diagrams, not product screenshots. They describe the
-backend architecture, not a live execution in the frontend-only recorded demo.
+Both are original, editable SVGs documenting the default governed workflow.
+The experimental four-role implementation is described separately in
+[`docs/release_candidate_architecture.md`](../../docs/release_candidate_architecture.md).

@@ -18,7 +18,8 @@ class RouteActivation:
 @dataclass(frozen=True)
 class DeadlineReserves:
     # Compact context-only output has a 12 s hard window, not a latency SLA.
-    # Third-run completed critics reached 6.366 s; allow 7 s with margin.
+    # critic is an admission estimate/fallback, not the P0 execution window.
+    # Required review uses remaining global time minus reserves, capped at 12 s.
     # These are conservative admission estimates, NOT provider latency promises.
     synthesis: float = 12.0
     critic: float = 7.0

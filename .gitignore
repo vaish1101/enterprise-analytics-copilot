@@ -21,7 +21,6 @@
 *.xls
 .idea/
 .vscode/
-.vercel/
 coverage/
 /assets/screenshots/temporary/
 /assets/demo/temporary/

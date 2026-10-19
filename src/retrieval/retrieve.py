@@ -33,6 +33,12 @@ def _citation(unit: EvidenceUnit) -> str:
 
 
 class GovernedRetriever:
+    supported_methods = ("lexical", "dense", "hybrid")
+
+    def candidate_units(self, query: RetrievalQuery) -> list[EvidenceUnit]:
+        """Governed metadata catalog; not an additional retrieval operation."""
+        return [] if self._is_unsupported_split(query) else self._filter(query)
+
     def __init__(self, units: list[EvidenceUnit], *, root: Path | None = None,
                  embedding_provider: EmbeddingProvider | None = None,
                  lexical_weight: float = 1.0, dense_weight: float = 1.0):
@@ -172,12 +178,28 @@ class GovernedRetriever:
 class PgVectorRetriever:
     """Production dense retriever with governed filters executed inside PostgreSQL."""
 
+    supported_methods = ("dense",)
+
     def __init__(self, *, dsn: str, root: Path, embedding_provider: EmbeddingProvider,
-                 total_units: int):
+                 total_units: int, pinned_units: list[EvidenceUnit] | None = None):
         self.embedding_provider = embedding_provider
         self.vocabulary = GovernedVocabulary(root)
         self.store = PgVectorStore(dsn, embedding_model=embedding_provider.model_name)
         self.total_units = total_units
+        # The authorized ingestion catalog binds returned SQL rows to their
+        # original source identity. It does not replace PostgreSQL retrieval.
+        self.unit_by_id = {u.evidence_unit_id: u for u in pinned_units} if pinned_units is not None else None
+
+    def candidate_units(self, query: RetrievalQuery) -> list[EvidenceUnit]:
+        if self.unit_by_id is None:
+            raise ValueError("Pinned evidence catalog required for bounded agent retrieval")
+        if GovernedRetriever._is_unsupported_split(query):
+            return []
+        return [u for u in self.unit_by_id.values()
+            if u.company_id == query.company_id
+            and (not query.reporting_periods or set(query.reporting_periods).issubset(u.reporting_periods))
+            and (not query.business_scopes or set(query.business_scopes).intersection(u.business_scopes))
+            and (not query.metric_ids or set(query.metric_ids).intersection(u.metric_ids))]
 
     def retrieve(self, query: RetrievalQuery, *, method: str = "dense") -> RetrievalResponse:
         if method != "dense":
@@ -272,5 +294,5 @@ def build_pgvector_retriever(
         local_files_only=True,
     )
     return PgVectorRetriever(
-        dsn=dsn, root=project_root, embedding_provider=provider, total_units=len(units),
+        dsn=dsn, root=project_root, embedding_provider=provider, total_units=len(units), pinned_units=units,
     )

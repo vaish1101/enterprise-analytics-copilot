@@ -13,7 +13,7 @@ public-check:
 	python scripts/public_release_check.py --history
 
 api:
-	.venv/bin/uvicorn src.api.app:app --reload --host 127.0.0.1 --port 8000
+	APP_MODE=demo PUBLIC_DEMO=1 RETRIEVAL_BACKEND=local .venv/bin/uvicorn src.api.app:app --reload --host 127.0.0.1 --port 8000
 
 ui:
 	cd frontend && npm run dev

@@ -17,7 +17,9 @@ def _candidates(plan: AnalyticalPlan) -> tuple[AnalyticsAction, ...]:
     # Only already resolved decomposition-capable tasks. No metric, scope,
     # period, cross-company or drill-down parameters are accepted from agents.
     if plan.requires_decomposition:
-        actions += [AnalyticsAction.LOOKUP, AnalyticsAction.RANK_POSITIVE,
+        # A primary fact lookup adds no information to the mandatory bridge
+        # anchor. Keep genuinely distinct governed diagnostic choices.
+        actions += [AnalyticsAction.RANK_POSITIVE,
                     AnalyticsAction.RANK_NEGATIVE, AnalyticsAction.RECONCILE]
     elif plan.operation is PlanOperation.CALCULATE_CHANGE:
         actions += [AnalyticsAction.LOOKUP]
@@ -97,14 +99,16 @@ def action_plan(plan, action, **context):
     return _derive(plan, action)
 
 
-def evidence_menu(*, previous=(), remaining=1):
+def evidence_menu(*, previous=(), remaining=1, supported_methods=("lexical", "dense", "hybrid")):
     if remaining <= 0:
         return ()
-    return tuple(x for x in EvidenceSearchStrategy if x not in previous)
+    return tuple(x for x in EvidenceSearchStrategy if x not in previous
+        and (x.value in supported_methods or x is EvidenceSearchStrategy.DEFINITION
+            and any(m in supported_methods for m in ("dense", "hybrid"))))
 
 
-def authorize_evidence(strategy, *, previous=(), remaining=1):
-    if strategy not in evidence_menu(previous=previous, remaining=remaining):
+def authorize_evidence(strategy, *, previous=(), remaining=1, supported_methods=("lexical", "dense", "hybrid")):
+    if strategy not in evidence_menu(previous=previous, remaining=remaining, supported_methods=supported_methods):
         raise ToolAuthorizationError("Search not offered by current capability set")
     return strategy
 

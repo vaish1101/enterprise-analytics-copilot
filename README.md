@@ -1,167 +1,108 @@
 # Enterprise Analytics Copilot
 
-**Governed AI for KPI analysis, variance explanation, reporting context, and decision support.**
+**Business questions. Governed figures. Traceable answers.**
 
-A governed analytics workflow that combines reported figures, deterministic calculations, reporting evidence and independent checks. Ask what changed, inspect what supports the answer, and see what cannot be concluded.
+An independent analytics engineering and Applied AI project for investigating reported business performance. It combines deterministic KPI calculations, company reporting, source provenance and controlled answer release.
 
-Ask a business question. See the analysis behind the answer.
+![Existing recorded-demo interface](assets/screenshots/product-overview.png)
 
-![Enterprise Analytics Copilot, approved light-mode interface with recorded-demo disclosure](assets/screenshots/product-overview.png)
+[Explore the existing Vercel demo](https://enterprise-analytics-copilot.vercel.app/) · [Architecture](docs/release_candidate_architecture.md) · [Release/deployment boundaries](docs/final_release_status.md)
 
-[Architecture](docs/architecture.md) · [Evaluation](docs/evaluation.md) · [Reproduction](docs/reproduction.md) · [Data and rights](docs/data_sources.md)
+The hosted interface is an interactive **recorded frontend replay**, not a live FastAPI/model deployment. The existing UI and approved screenshots are reused; the new four-role backend is not silently substituted into that deployment.
 
-[Try the interactive demo](https://enterprise-analytics-copilot.vercel.app/). Explore validated recorded examples in the web app. This is not a video or live AI.
+Public-reporting datasets cover Mercedes-Benz, Henkel and Siemens. These companies are demo data subjects—not customers, partners or endorsements. Support varies by company, period, scope and metric.
 
-> Two credential-free demonstrations are available: a **frontend-only recorded replay** and a **local numerical Docker workflow** using a deterministic template provider. Neither makes live AI calls. The full authorized backend adds documentary retrieval and structured model synthesis; its publisher-owned corpus and runtime assets are not distributed.
+## What you can investigate
 
-## Business problem
+- Reported KPIs with exact units, periods and source lineage.
+- Period comparisons and reported contribution bridges, subject to metric policy.
+- Metric definitions and management explanations when approved documentary assets are available.
+- Missing explanations, ambiguous questions and unsupported attribution, with explicit boundaries rather than invented drivers.
 
-Investigating a KPI usually means moving between dashboards, spreadsheets, metric definitions and company reports. The figure, its comparison period and management's explanation may sit in different places, and a plausible explanation is not necessarily supported.
+## Two distinct execution paths
 
-This project brings that investigation into one bounded workflow: identify the metric and scope, execute the appropriate numerical analysis, assemble available evidence, and release only supported findings or a clear boundary.
+| Path | Status | What it does |
+|---|---|---|
+| Default governed workflow | Existing validated path; unchanged by the new integration | Deterministic planning, calculations, retrieval and verification; synthesis is model-backed in the full local environment |
+| Bounded four-role candidate | Opt-in development integration; not promoted | Model-backed analytics decisions, evidence decisions, synthesis and selective semantic review, under deterministic tool and release controls |
+| Public Docker demo | Numerical-only, deterministic fake provider | Reproduces supported governed numerical answers without API credentials or the excluded documentary corpus |
+| Existing Vercel frontend | Recorded example replay; no backend connection | Demonstrates the interface and evidence interactions without live analysis or provider requests |
 
-## What it does
+The four-role candidate is implemented, but its final integrated live evaluation and promotion are pending. Multiple model-backed roles are not a claim of autonomous analysts or measured superiority. A single-controller implementation remains an evaluation baseline, not the selected product replacement.
 
-| Business question | Supported workflow |
-|---|---|
-| What was the reported figure? | Governed lookup with company, scope, period, unit and fact lineage |
-| How much did it change? | Deterministic period comparison, subject to metric policy |
-| What contributed to the change? | Reviewed reported decompositions, without inventing unavailable splits |
-| How is this metric defined? | Filtered documentary retrieval in the full local environment |
-| What did management report? | Source-supported context, visibly separate from causal proof |
-| What evidence supports the answer? | Inspectable provenance and available source references |
+## Four bounded roles
 
-Support depends on catalog and dataset coverage. Ambiguous requests ask for clarification; unsupported or insufficiently evidenced requests refuse.
+| Role | Decision | Authority boundary |
+|---|---|---|
+| Analytics Agent | Selects from approved diagnostic actions when needed | Python performs arithmetic; the mandatory governed question anchor cannot be bypassed |
+| Evidence Agent | Chooses from advertised scoped retrieval strategies and one permitted follow-up | No arbitrary SQL, web access, filter expansion or document instruction execution |
+| Synthesis Agent | Selects documentary statements and bounded interpretation | Application owns numerical claims, calculation lineage and canonical quotations |
+| Semantic Review Agent | Selectively checks semantic risk and bounded correction options | Does not execute repairs or authorize final release; deterministic code does |
 
-## Example investigation
+Roles activate only when required. Numerical fast paths need not call a model. LangGraph carries typed state through planning, investigation, evidence assembly, synthesis, review and deterministic verification. A bounded revision may return to review; retries and tools remain capped. See [candidate architecture](docs/release_candidate_architecture.md).
 
-**“What drove Mercedes-Benz Cars adjusted EBIT in Q2 2026?”**
+## Engineering stack
 
-At the reviewed source checkpoint, Cars adjusted EBIT decreased by **EUR 319 million**, from EUR 1,228 million in Q2 2025 to EUR 909 million in Q2 2026. Management's largest negative bridge contribution was the **combined** “Volume / structure / net pricing” category, at EUR −602 million.
+Python · FastAPI · Pydantic · LangGraph · Decimal arithmetic · PostgreSQL/pgvector · cached SentenceTransformer MiniLM · React · TypeScript · Vite · Three.js.
 
-| Figure | EUR million |
-|---|---:|
-| Q2 2025 adjusted EBIT | 1,228 |
-| Combined volume / structure / net pricing contribution | −602 |
-| Q2 2026 adjusted EBIT | 909 |
+The authorized local retrieval path is metadata-first MiniLM dense search, top_k=5, with pinned source identities and no production local fallback when pgvector is selected. BM25/hybrid are diagnostic/fallback capabilities, not the selected production default. The experimental policy adds bounded evidence-type preference and question-specific passage admission; it does not change embeddings or SQL ranking implementation.
 
-The complete seven-component bridge reconciles to 909. The combined category cannot be split into price, volume or mix effects, and management attribution is not causal identification. [Inspect the source mapping](docs/mercedes_xlsx_mapping.md).
+## Reliability and limitations
 
-The frontend includes a clearly labelled recorded illustration of this investigation. The local numerical Docker runtime intentionally refuses documentary explanations without the excluded corpus. Neither demonstration claims to run live documentary retrieval.
+A relevant document is not necessarily a sufficient explanation. The candidate separately checks source integrity, requested entity/period/scope/metric, explanatory sufficiency and answer support. Mixed table/prose pages may supply valid prose without admitting every table. If only numerical findings are supported, the candidate can release a freshly verified **PARTIAL** answer.
 
-## How it works
+Management attribution is not causal identification. A combined volume/structure/net-pricing bridge is not split into a fabricated price effect. Unsupported requests are withheld; unresolved questions may require clarification.
 
-![Question-to-supported-answer workflow](assets/architecture/high-level.svg)
+The integrated backend checkpoint recorded 956 existing Python regressions and 91 policy/API checks passed; twelve actual-pgvector pipeline executions plus four HTTP API requests used scripted decisions with no provider requests. Those backend results are preserved, not rerun in the final packaging pass. The 18 October compatibility checkpoint passed 194 public Python tests locally and the same 194 in Docker, plus 101 frontend tests and production/recorded-demo builds. Repeated environment runs are not additional independent tests. These are software and controlled-development results, not live-model accuracy, independent business adjudication or statistical architecture superiority. The bounded English extractive evidence policy can still fail on unseen semantics. Historical results are not recertified as current held performance. See [evaluation boundaries](docs/release_candidate_evaluation.md).
 
-A deterministic, catalog-grounded planner selects bounded tools. Numerical authority stays with governed facts and deterministic calculations, not the model. Structured synthesis proposes claims; independent verification checks their data, lineage and release contract. Outcomes include a released answer, a supported subset, clarification or refusal.
+## Run the public demonstration
 
-The workflow separates routing, analytics, retrieval, synthesis and verification into logical roles. It is not an autonomous analyst workforce. [Technical architecture](docs/architecture.md) · [Methodology](docs/methodology.md)
+Prerequisites: Docker with Compose, a free local port 8000 and dependency-download access for a first build.
 
-## Evidence and verification
+```sh
+docker compose -f docker-compose.public.yml up --build
+```
 
-- Company-specific metrics retain their scope, period, grain, units and evidence expectations.
-- Reported facts, calculations and management attribution have distinct provenance.
-- The full local retrieval path filters metadata before MiniLM dense retrieval through PostgreSQL/pgvector, with top-five results and an HNSW index.
-- Numerical prose is checked conservatively; released numerical text is bound to verified structured fields. Unchecked draft summaries are not released.
-- Missing or inconsistent frontend verification payloads fail closed, even after HTTP success.
+Open `http://localhost:8000`. Try “What were Henkel H1 2026 sales?” The governed figure is 10,348 EUR million. The demo uses a fake provider, makes no paid calls and intentionally refuses questions requiring excluded documentary reporting.
 
-Verification is a bounded contract check, not a universal semantic truth guarantee. Reconciliation does not prove that two metrics mean the same thing. [Provenance and verification](docs/provenance_and_verification.md)
+```sh
+docker compose -f docker-compose.public.yml down
+```
 
-## Validation snapshot
+Do not use `down -v` against a database you need to preserve. Public-demo startup does not initialize a documentary pgvector store.
 
-These measurements are different kinds of evidence, not one blended accuracy score.
+## Full local environment and tests
 
-| Evidence | Scoped result |
-|---|---|
-| Public regression suite, 1 October 2026 | 151 Python tests; 101 frontend tests; TypeScript and recorded-demo production build passed |
-| Governance-bypass regression | 8 cases; no successful authority compromise under the deterministic test provider |
-| Frozen Siemens initial evaluation | 18/20 task outcomes correct; two valid questions refused; deterministic provider |
-| Frozen live-provider held evaluation | 4/5 expected outcomes; one bounded provider/runtime failure; OpenAI synthesis |
-| Public-safe Docker | Numerical workflow, no bundled corpus or credentials; see reproduction instructions |
+The full documentary path requires separately authorized source assets, ingestion/index initialization, cached MiniLM weights, PostgreSQL/pgvector and configured provider access. Raw reports, embeddings, runtime stores, provider transcripts and private evaluation artifacts are intentionally not redistributed. A public clone alone does not reproduce that path. Follow [reproduction](docs/reproduction.md), [deployment](docs/deployment.md), and [source/rights boundaries](docs/data_sources.md); never commit a populated environment file.
 
-The historical held evaluations describe their original frozen implementations, not the current safety patch. They were not rerun. Tests do not establish general reasoning accuracy or enterprise production readiness. [Evaluation scope and failures](docs/evaluation.md)
+```sh
+python -m pip install -r requirements-public.txt
+python scripts/test_public.py
+cd frontend
+npm ci
+npm test
+npm run build
+```
 
-## Demo datasets
+The private 956-regression and policy/API suite is not implied to be runnable from the public subset with excluded assets. There is no automatic environment switch promoting the candidate: the experimental API factory must be explicitly selected by application code with approved providers and retrievers.
 
-Mercedes-Benz, Henkel and Siemens are used only as public-reporting demo datasets. No affiliation, sponsorship, partnership or endorsement is implied.
+## Demo and release status
 
-The repository ships reviewed derived numerical facts, metric contracts and source metadata. Raw reports, workbooks, full extracted text, embeddings, private indexes and runtime stores are excluded. [Source metadata and rights](docs/data_sources.md)
+The [demo guide](docs/release_candidate_demo.md) separates the existing Vercel replay, reproducible public numerical behavior, scripted engineering demonstrations and future approved live-agent demonstrations. Screenshots belong to the already published recorded-demo UI, not a newly validated live multi-agent run. [Dark theme](assets/screenshots/product-overview-dark.png) · [Supported figure](assets/screenshots/supported-analysis.png) · [Evidence inspector](assets/screenshots/evidence-inspector.png) · [Refusal](assets/screenshots/governed-refusal.png).
 
-## Demonstration
+To reproduce the recorded interface locally:
 
-The interface includes light/dark themes, English/German controls, a 3D workflow illustration, source inspection and explicit clarification/refusal states. Analytical wording remains in the source language.
-
-[Dark theme](assets/screenshots/product-overview-dark.png) · [Supported figure](assets/screenshots/supported-analysis.png) · [Source inspector](assets/screenshots/evidence-inspector.png) · [Disclosure boundary](assets/screenshots/governed-refusal.png)
-
-The frontend-only mode replays selected validated examples and the recorded Mercedes investigation. Other questions are refused rather than sent to a backend or model. Definitions and commentary that need the unavailable corpus remain bounded. History is page-local; there is no remote session persistence in this mode.
-
-```bash
+```sh
 cd frontend
 npm ci
 npm run build:demo
 npm run preview
 ```
 
-The [public recorded demo](https://enterprise-analytics-copilot.vercel.app/) is hosted on Vercel. The README does not depend on a video recording.
+The unpublished draft pins the patched transitive `source-map-js` dependency. Its existing Vercel deployment is unchanged; dependency advisories and deployment boundaries are recorded in [release status](docs/final_release_status.md).
 
-## Technology
+Remaining gates for live backend promotion: independent human adjudication, verified all-in billing, explicitly approved small live evaluation and product-level acceptance of the experimental mode. Publishing this accurately qualified source draft requires separate owner approval. Use the existing sanitized public history, never the private development history. Session IDs are not authenticated tenant identities; this project is not cleared for public multi-tenant backend exposure.
 
-| Layer | Implementation |
-|---|---|
-| Product interface | React, TypeScript, Vite; Three.js and GSAP in the current visual implementation |
-| API and contracts | Python, FastAPI, Pydantic |
-| Numerical analytics | Governed metric catalog, Decimal calculations and controlled reconciliation |
-| Synthesis and orchestration | LangGraph; OpenAI Structured Outputs in the full local environment |
-| Documentary retrieval | sentence-transformers/MiniLM, PostgreSQL, pgvector, HNSW |
-| Persistence and infrastructure | SQLite or PostgreSQL checkpoint/session stores; Docker |
-| Validation | pytest, Vitest, Testing Library, TypeScript; public-safe CI workflow |
+Future work is deliberately narrow: complete those gates, validate semantic generalization and improve documentary readability without weakening numerical or release safeguards.
 
-## Run the public demo
-
-With Docker and Docker Compose installed, from the repository root:
-
-```bash
-docker compose -f docker-compose.public.yml up --build -d
-curl --fail http://localhost:8000/health
-curl --fail http://localhost:8000/ready
-```
-
-Open `http://localhost:8000` and try **“What were Henkel H1 2026 sales?”** No `.env`, API key or documentary corpus is needed. A definition question intentionally refuses.
-
-Stop it with `docker compose -f docker-compose.public.yml down`. Port 8000 must be free. The first build downloads dependencies; “credential-free” does not mean the first build is offline.
-
-[Public reproduction and tests](docs/reproduction.md) · [Full-local prerequisites and deployment boundaries](docs/deployment.md) · [Empty configuration template](.env.example)
-
-## Repository guide
-
-```text
-src/          planning, analytics, retrieval, orchestration, API and contracts
-frontend/     product interface and frontend tests
-config/       governed metric/scope/period/source contracts and frozen metadata
-data/         reviewed derived figures and public-safe source metadata
-tests/        unit, rejection, fault and integration regressions
-evals/        development cases and preserved frozen evaluation definitions
-scripts/      acquisition, validation, evaluation and public-safety tooling
-docs/         architecture, methodology, evaluation, limits and reproduction
-assets/       architecture visuals; approved product/demo asset slots
-```
-
-## Limitations and public safety
-
-Coverage is bounded, metric semantics remain company-specific, and management attribution is not causal proof. There is no unrestricted SQL/Python execution, forecasting contract, arbitrary onboarding through prompts, or validated enterprise authentication/tenant boundary. Anonymous rate limits are process-local; multiple instances require shared gateway enforcement.
-
-The public Docker demo does not reproduce private documentary retrieval. The hosted interface is a recorded replay, not live AI; no production scalability claim is made. [Full limitations](docs/limitations.md)
-
-Secrets, local runtime state, publisher-owned corpora and internal development reports are not distributed. The optional bounded-agent experiment is disabled by default and is not the basis of production claims.
-
-## Ownership and usage
-
-Designed and developed by Vaishnavi Iyer as an independent portfolio project.
-
-© 2026 Vaishnavi Iyer. All rights reserved.
-
-This repository is provided for portfolio, educational and evaluation purposes. All rights reserved unless otherwise stated.
-
-No open-source license or broad reuse rights are granted. See the [ownership and usage terms](LICENSE). Third-party reports, source material, fonts and dependencies remain subject to their respective owners' rights and terms. [Third-party notices](THIRD_PARTY_NOTICES.md).
-
-**Vaishnavi Iyer** · [LinkedIn](https://www.linkedin.com/in/vaishnavi-iyer-60b9141b1/)
+Independent portfolio project by Vaishnavi Iyer. See [ownership notice](LICENSE) and [third-party notices](THIRD_PARTY_NOTICES.md).

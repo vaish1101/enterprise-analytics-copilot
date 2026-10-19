@@ -27,10 +27,9 @@
   Queue/backpressure and spending lifecycle remain deployment review items.
 - Live-provider reliability/cost depends on configuration and failed-attempt
   visibility. Unknown/unconfigured price coefficients are not a zero-cost claim.
-- The frontend-only public mode is recorded replay, not live question answering.
-  Questions outside its selected examples do not trigger backend analysis.
-  German controls do not imply translation of English analytical findings.
-- No public deployment, hosted live demo, horizontal-scaling benchmark or
-  unrestricted enterprise readiness is claimed.
+- Final UI, screenshots, EN/DE, themes, accessibility and final animation require
+  acceptance of the integrated product. Prototype visuals are not release evidence.
+- The existing hosted frontend is a recorded replay, not a live AI backend.
+  No horizontal-scaling benchmark or unrestricted enterprise readiness is claimed.
 
 [Evaluation scope](evaluation.md) · [Deployment boundaries](deployment.md)

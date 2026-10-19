@@ -14,7 +14,7 @@ The verifier checks linked numerical authority, company, metric, scope, period,
 unit, known calculation runs, selected document citations, provenance relabeling,
 causal overstatement and applicable caveats. Reported units must match source
 units; calculation units follow linked output fields. Decimal comparisons are
-exact at the prose boundary; source rounding tolerance does not excuse arbitrary
+exact at the prose boundary—source rounding tolerance does not excuse arbitrary
 answer discrepancies.
 
 Numerical prose checks reject wrong amounts/signs/currencies/scales, extra

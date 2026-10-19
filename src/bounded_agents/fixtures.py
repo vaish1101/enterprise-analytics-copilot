@@ -17,16 +17,48 @@ class SpikeFixtureProvider(DeterministicFakeProvider):
         self.calls = []
 
     def generate_structured(self, *, role, prompt, payload, output_model, prompt_version, revision=False):
+        from .source_ownership import SourceSynthesis
+        if issubclass(output_model, SourceSynthesis):
+            configured=self.fixtures.get(role)
+            if isinstance(configured,dict) and ('numeric_fact_ids' in configured or configured.get('direct_answer',{} ) is not None and configured.get('direct_answer',{}).get('kind')=='source'):
+                self.calls.append(role)
+                return ProviderResult(value=output_model.model_validate_json(__import__('json').dumps(configured)),
+                    usage=TokenUsage(input_tokens=100,output_tokens=25,estimated_cost_usd=Decimal('0')),
+                    provider_name=self.name,provider_model=self.model,prompt_version=prompt_version)
+            # Legacy fixtures remain useful for adversarial tests; this adapter
+            # is fake-only and is never used by a live provider.
+            old = self.generate_structured(role=role,prompt=prompt,payload=payload,
+                output_model=CompactSynthesis,prompt_version=prompt_version,revision=revision)
+            value = CompactSynthesis.model_validate_json(old.value.model_dump_json()) if hasattr(old.value,'model_dump_json') else CompactSynthesis.model_validate(old.value)
+            def selection(c):
+                if c is None:return None
+                if c.kind.value == 'quote':
+                    docs={d['id']:d for d in payload['documents']}
+                    if any(e not in docs or c.text not in docs[e]['text'] for e in c.evidence_ids):
+                        raise ValueError('Invalid legacy fixture quote')
+                    return {'kind':'source','text':None,'evidence_ids':c.evidence_ids}
+                return {'kind':c.kind.value,'text':c.text,'evidence_ids':c.evidence_ids}
+            result={'direct_answer':selection(value.direct_answer),
+                'context':[selection(c) for c in value.context]}
+            if 'numeric_fact_ids' in output_model.model_fields:result['numeric_fact_ids']=payload['numeric_fact_ids']
+            return old.model_copy(update={'value':output_model.model_validate_json(__import__('json').dumps(result))})
         self.calls.append(role)
         if output_model is CompactSynthesis:
             configured=self.fixtures.get(role)
             if configured is None:
                 docs=payload['documents']
+                required=payload.get('answer_requirements',{}).get('documentary_required',False)
+                if required and docs and 'Governed definition and reporting context.' not in docs[0]['text']:
+                    text=docs[0]['text']
+                    # Deterministic fake output only; not model-value evidence.
+                    if text.startswith('Synthetic development') and '. ' in text:
+                        text=text.split('. ',1)[1]
+                    configured=CompactSynthesis(direct_answer=ContextStatement(kind='quote',text=text,evidence_ids=(docs[0]['id'],)),context=())
                 context=() if payload['numeric_claims'] and not self.fixtures.get('critic') else tuple(ContextStatement(
                     kind='limitation' if x['source_id'].startswith('synthetic_') else 'quote',
                     text='The selected synthetic development source does not establish the official metric definition.'
                     if x['source_id'].startswith('synthetic_') else x['text'], evidence_ids=(x['id'],)) for x in docs[:1])
-                configured=CompactSynthesis(context=context)
+                configured=configured or CompactSynthesis(context=context)
             if self.fault_by_question_id:
                 configured={'context':[], 'numeric_override':'forbidden'}
             return ProviderResult(value=configured,usage=TokenUsage(input_tokens=100,output_tokens=25,
