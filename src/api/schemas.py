@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Literal
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, model_validator
 
 
 class QueryRequest(BaseModel):
@@ -62,12 +62,54 @@ class ExecutionSummary(BaseModel):
     analytics_used: bool
     retrieval_used: bool
     revision_used: bool
-    provider_calls: int
+    provider_calls: int | None
     verifier_interventions: int
     input_tokens: int
     output_tokens: int
     cost_usd: str
     stages: list[ExecutionStage]
+
+
+class V2ProductSummary(BaseModel):
+    """Safe request-local projection, never a model-produced release decision."""
+    model_config = ConfigDict(extra="forbid", frozen=True)
+    release_mode: Literal["FULL", "PARTIAL", "WITHHELD", "CLARIFICATION"]
+    verification_status: Literal["PASS", "NEEDS_REVISION", "REFUSE"] | None
+    review_status: Literal["PASS", "REVISE", "BLOCK", "UNAVAILABLE", "NOT_INVOKED", "UNKNOWN"]
+    review_required: bool
+    provider_generation_count: int | None = Field(ge=0)
+    generation_count_basis: Literal["PROVIDER_REQUESTS", "OFFLINE_SIMULATION", "UNKNOWN"]
+    retrieval_used: bool
+    retrieval_backend: Literal["PGVECTOR", "LOCAL", "NONE", "UNKNOWN"]
+    retrieval_mode: Literal["EXECUTED", "CACHED", "NONE", "UNKNOWN"]
+    embedding_model: str | None
+    fixture_mode: bool
+    agent_roles_used: list[Literal["Analytics Agent", "RAG Evidence Agent", "Insight Synthesis Agent", "Semantic Review Agent"]]
+    limitations: list[str]
+    reason_codes: list[Literal["INSUFFICIENT_EVIDENCE", "REQUIRED_REVIEW_UNAVAILABLE", "SEMANTIC_REVIEW_UNAVAILABLE", "SEMANTIC_SAFETY", "VERIFICATION_FAILURE", "UNSUPPORTED_REQUEST", "WORKFLOW_UNAVAILABLE", "CLARIFICATION_REQUIRED", "SUPPORTED_SUBSET"]]
+    released_claim_ids: list[str]
+    withheld_components: list[Literal["Analytical findings", "Documentary explanation", "Semantic interpretation", "Supported findings"]]
+
+    @model_validator(mode="after")
+    def consistent_release(self):
+        if self.release_mode in {"FULL", "PARTIAL"}:
+            if self.verification_status != "PASS" or not self.released_claim_ids:
+                raise ValueError("Released claims require final PASS")
+        elif self.released_claim_ids:
+            raise ValueError("No claims may be released")
+        if self.release_mode == "FULL" and self.withheld_components:
+            raise ValueError("Full release cannot describe withheld components")
+        if self.release_mode == "PARTIAL" and (not self.withheld_components or not self.reason_codes):
+            raise ValueError("Partial release must describe its boundary")
+        if (self.provider_generation_count is None) != (self.generation_count_basis == "UNKNOWN"):
+            raise ValueError("Unknown generation count must be explicit")
+        if self.provider_generation_count == 0 and self.agent_roles_used:
+            raise ValueError("No model-backed roles without generation")
+        if self.retrieval_used != (self.retrieval_mode == "EXECUTED"):
+            raise ValueError("Retrieval invocation and mode disagree")
+        if self.retrieval_mode == "NONE" and (self.retrieval_backend != "NONE" or self.embedding_model is not None):
+            raise ValueError("No retrieval has no backend or embedding model")
+        return self
 
 
 class AnalyticsFact(BaseModel):
@@ -179,6 +221,7 @@ class QueryResponse(BaseModel):
     fact_sources: list[FactSourceResponse] = Field(default_factory=list)
     clarification_options: list[ClarificationOption] = Field(default_factory=list)
     alternatives: list[GovernedAlternative] = Field(default_factory=list)
+    product: V2ProductSummary | None = None
 
 
 class HealthResponse(BaseModel):
@@ -268,7 +311,7 @@ class MetricsResponse(BaseModel):
     clarification: int
     errors: int
     revisions: int
-    provider_calls: int
+    provider_calls: int | None
     input_tokens: int
     output_tokens: int
     estimated_cost_usd: str

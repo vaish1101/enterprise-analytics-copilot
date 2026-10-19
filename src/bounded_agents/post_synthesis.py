@@ -3,6 +3,7 @@
 No numerical validator relaxation; no model-derived arithmetic or source truth.
 """
 from enum import Enum
+from typing import Literal
 import hashlib
 import re
 
@@ -11,6 +12,7 @@ from pydantic import Field, model_validator
 from src.orchestration.models import Claim, ClaimType, SynthesisDraft
 from src.schemas.models import ProvenanceType
 from .models import Contract, CriticFeedback, CriticDecision, CriticIssue
+from .answer_contract import TypedDraft,AnswerComponent,ComponentRole,Authenticity,authenticity
 
 
 class ContextKind(str, Enum):
@@ -21,20 +23,39 @@ class ContextKind(str, Enum):
 
 class ContextStatement(Contract):
     kind: ContextKind
-    text: str = Field(min_length=1, max_length=480)
+    # Resolved quotes are canonical application-owned passages, not model prose.
+    text: str = Field(min_length=1)
     evidence_ids: tuple[str, ...] = Field(min_length=1, max_length=2)
+
+    @model_validator(mode='after')
+    def bounded_semantic_text(self):
+        if self.kind is not ContextKind.QUOTE and len(self.text) > 480:
+            raise ValueError('Semantic claim needs bounded text')
+        return self
 
 
 class CompactSynthesis(Contract):
     # No model-owned number/value/unit/company/period/lineage fields.
     context: tuple[ContextStatement, ...] = Field(max_length=3)
+    direct_answer: ContextStatement | None = Field(default=None,
+        description='Substantive source-supported answer first for documentary requests; source caveats belong in context. Null only for numeric-only or unsupported content.')
 
 
 class CorrectionOperation(str, Enum):
+    ADD_MISSING_ANSWER_COMPONENT = 'add_missing_answer_component'
     DROP_CLAIM = 'drop_claim'
     RESTORE_NUMERIC = 'restore_numeric'
     REBIND_QUOTE = 'rebind_quote'
     ADD_LIMITATION = 'add_limitation'
+
+
+PERMITTED_CORRECTIONS = {
+    'incomplete_answer':{'add_missing_answer_component'},
+    'causal_overclaim':{'drop_claim','restore_numeric'},
+    'unsupported_interpretation':{'drop_claim'},
+    'misleading_attribution':{'drop_claim','restore_numeric','rebind_quote'},
+    'missing_limitation':{'add_limitation'},
+}
 
 
 class SurgicalCorrection(Contract):
@@ -42,6 +63,23 @@ class SurgicalCorrection(Contract):
     issue: CriticIssue
     operation: CorrectionOperation
     evidence_id: str | None = None
+    missing_answer_component: Literal['direct_commentary','direct_definition','governed_result','requested_contributor'] | None = None
+
+    @model_validator(mode='after')
+    def operation_contract(self):
+        if self.operation.value not in PERMITTED_CORRECTIONS[self.issue.value]:
+            raise ValueError('Correction does not address a typed issue')
+        if self.operation is CorrectionOperation.REBIND_QUOTE and self.evidence_id is None:
+            raise ValueError('Quote rebinding requires selected evidence identity')
+        if self.operation is CorrectionOperation.ADD_MISSING_ANSWER_COMPONENT and self.evidence_id is None:
+            raise ValueError('Completion must bind selected evidence')
+        if self.operation is CorrectionOperation.ADD_MISSING_ANSWER_COMPONENT and self.missing_answer_component is None:
+            raise ValueError('Completion requires an exact missing component')
+        if self.operation is not CorrectionOperation.ADD_MISSING_ANSWER_COMPONENT and self.missing_answer_component is not None:
+            raise ValueError('Only completion names a missing component')
+        if self.operation in {CorrectionOperation.RESTORE_NUMERIC, CorrectionOperation.ADD_LIMITATION} and self.evidence_id is not None:
+            raise ValueError('Canonical restoration does not accept documentary evidence')
+        return self
 
 
 class ActionableCritic(CriticFeedback):
@@ -111,8 +149,16 @@ def governed_draft(bundle):
                 periods=tuple(x.period.value for x in inputs), value=run.result_value, unit=unit,
                 fact_ids=tuple(x.fact_id for x in inputs), calculation_run_ids=(run.run_id,), evidence_ids=a.evidence_ids))
         limitations.extend(x.value for x in (*a.limitations,*a.warnings))
+        if a.source_plan_operation.value == 'RECONCILE' and a.reconciliation_results:
+            limitations.append('The governed reported bridge reconciles within its approved source tolerance.'
+                if all(r.passed for r in a.reconciliation_results) else
+                'The reported bridge does not reconcile; a stronger conclusion is withheld.')
         if any(x.claim_type is ClaimType.MANAGEMENT_ATTRIBUTED for x in claims):
-            limitations.extend(SAFE_LIMITATIONS[:2])
+            limitations.append(SAFE_LIMITATIONS[0])
+        # Scope this notice to the governed restriction, not all management
+        # attribution (e.g. standalone price/volume growth contributions).
+        if any(x.value == 'COMBINED_COMPONENT_NOT_SPLIT' for x in a.limitations):
+            limitations.append(SAFE_LIMITATIONS[1])
     return SynthesisDraft(draft_id='v2_governed_'+hashlib.sha256(bundle.question_id.encode()).hexdigest()[:16],
         question_id=bundle.question_id, answer=' '.join(x.text for x in claims),
         claims=tuple(claims), limitations=tuple(dict.fromkeys(limitations)))
@@ -124,10 +170,12 @@ def evidence_map(bundle):
 
 
 def compact_payload(bundle, observations=()):
+    from .passage_representation import representation
     seed = governed_draft(bundle)
     a=bundle.analytics
     facts={f.fact_id:f for f in (a.primary_result,a.comparison_result,*a.decomposition_components) if f is not None} if a else {}
-    return {'question':bundle.plan.raw_question,
+    from .completeness import requirements
+    return {'question':bundle.plan.raw_question,'answer_requirements':requirements(bundle),
         'target':bundle.plan.model_dump(mode='json')['primary_target'],
         'operation':bundle.plan.operation.value,
         'numeric_claims':[{'id':x.claim_id,'label':facts[x.fact_ids[0]].reported_name,
@@ -135,8 +183,9 @@ def compact_payload(bundle, observations=()):
             'provenance':x.claim_type.value,'fact_ids':x.fact_ids,
             'calculation_run_ids':x.calculation_run_ids,'evidence_ids':x.evidence_ids} for x in seed.claims],
         'limitations':seed.limitations,
-        'documents':[{'id':x.evidence_unit_id,'text':x.text,'source_id':x.source_id,
+        'documents':[{**representation(x,budget=4096),
             'type':x.evidence_unit_type.value,'relevance':x.evidence_relevance.value,
+            'authenticity':authenticity(x).value,
             'company':x.company_id,'scope':x.business_scopes,'metric':x.metric_ids,
             'periods':x.reporting_periods,'hash':x.content_hash} for x in evidence_map(bundle).values()],
         'diagnostics':[{'action':x.action.value,'ranked_fact_ids':[f.fact_id for f in x.result.ranked_components],
@@ -144,11 +193,12 @@ def compact_payload(bundle, observations=()):
         'conflicts':bundle.conflict_notes}
 
 
-def compose(bundle, output):
+def compose(bundle, output, *, fixture_mode=False):
     seed = governed_draft(bundle)
     claims = list(seed.claims)
     documents = evidence_map(bundle)
-    for c in output.context:
+    typed=[]
+    for c in ((output.direct_answer,) if output.direct_answer is not None else ()) + output.context:
         if not set(c.evidence_ids).issubset(documents):
             raise ValueError('Context citation outside selected governed evidence')
         if c.kind is ContextKind.QUOTE and not all(c.text in documents[e].text for e in c.evidence_ids):
@@ -160,12 +210,20 @@ def compose(bundle, output):
             metric_id=target.metric_id.value if target and target.metric_id else None,
             business_scope=target.business_scope if target else None,
             periods=(target.period.value,) if target and target.period else (), evidence_ids=c.evidence_ids))
+        role=ComponentRole.LIMITATION if c.kind is ContextKind.LIMITATION else ComponentRole.DIRECT_ANSWER if c is output.direct_answer else ComponentRole.SUPPORTING_CONTEXT
+        auth=Authenticity.SYNTHETIC_FIXTURE if any(authenticity(documents[e]) is Authenticity.SYNTHETIC_FIXTURE for e in c.evidence_ids) else Authenticity.PUBLIC_REPORT
+        typed.append(AnswerComponent(claim_id=claims[-1].claim_id,role=role,authenticity=auth,
+            evidence_ids=c.evidence_ids,source_quotation=c.kind is ContextKind.QUOTE))
     limitations = seed.limitations
-    if seed.claims and not output.context:
+    from .completeness import requirements
+    if requirements(bundle)['documentary_required'] and any(x.source_id.startswith('synthetic_') for x in documents.values()):
+        limitations += ('Documentary context uses labelled synthetic development evidence, not issuer statements.',)
+    if seed.claims and output.direct_answer is None and not output.context:
         limitations += (SAFE_LIMITATIONS[2],) if bundle.retrieval is not None else ()
     if not claims:
         raise ValueError('No supported content on documentary-only route')
-    return seed.model_copy(update={'claims':tuple(claims),'answer':' '.join(x.text for x in claims),'limitations':limitations})
+    return TypedDraft(**{**seed.model_dump(),'claims':tuple(claims),'answer':' '.join(x.text for x in claims),
+        'limitations':limitations,'components':tuple(typed),'fixture_mode':fixture_mode})
 
 
 def needs_critic(draft, bundle):
@@ -174,57 +232,57 @@ def needs_critic(draft, bundle):
     Canonical management-attributed labels with closed caveats are not an
     explanation. Additional narrative or cross-source synthesis is reviewable.
     """
-    canonical = {x.claim_id:x for x in governed_draft(bundle).claims}
-    docs = evidence_map(bundle)
-    for c in draft.claims:
-        if c == canonical.get(c.claim_id):
-            continue
-        # Only exact non-risky metric definition quotes may skip semantic review.
-        if (c.claim_type is ClaimType.REPORTED and c.value is None and c.evidence_ids
-            and all(e in docs and docs[e].evidence_unit_type.value=='METRIC_DEFINITION'
-                and not docs[e].source_id.startswith('synthetic_') and 'synthetic' not in docs[e].text.lower()
-                and c.text in docs[e].text for e in c.evidence_ids)
-            and len({docs[e].source_id for e in c.evidence_ids}) == 1
-            and not CAUSAL_RISK.search(c.text)):
-            continue
-        return True
-    allowed = set(governed_draft(bundle).limitations) | set(SAFE_LIMITATIONS)
-    required = set(governed_draft(bundle).limitations)
-    return not draft.claims or not required.issubset(draft.limitations) or any(x not in allowed for x in draft.limitations)
+    from .release_policy import review_required
+    return review_required(draft,bundle)
 
 
-def surgical_patch(draft, bundle, feedback):
+def surgical_patch(draft, bundle, feedback, *, completion_candidate=None):
     """Closed edits only; no full regeneration, novel numbers or new prose."""
     originals = {c.claim_id:c for c in draft.claims}
     canonical = {c.claim_id:c for c in governed_draft(bundle).claims}
     docs = evidence_map(bundle)
     replacements = dict(originals)
+    typed = {c.claim_id:c for c in getattr(draft,'components',())}
     limitations = list(draft.limitations)
     for edit in feedback.corrections:
         if edit.claim_id not in originals:
             raise ValueError('Unknown disputed claim')
         c = originals[edit.claim_id]
-        permitted = {
-            'causal_overclaim':{'drop_claim','restore_numeric'},
-            'unsupported_interpretation':{'drop_claim'},
-            'misleading_attribution':{'drop_claim','restore_numeric','rebind_quote'},
-            'missing_limitation':{'add_limitation'},
-        }
-        if edit.operation.value not in permitted[edit.issue.value]:
+        if edit.operation.value not in PERMITTED_CORRECTIONS[edit.issue.value]:
             raise ValueError('Correction does not address a typed issue')
-        if edit.operation is CorrectionOperation.RESTORE_NUMERIC:
-            if edit.claim_id not in canonical or edit.evidence_id is not None:
+        if edit.operation is CorrectionOperation.ADD_MISSING_ANSWER_COMPONENT:
+            # Semantic Review Agent identifies the component/source, not prose.
+            # Restore only an already model-constructed exact-source answer.
+            from .completeness import substantive
+            candidate=completion_candidate
+            if candidate is None or candidate.kind is not ContextKind.QUOTE or not substantive(candidate.text):
+                raise ValueError('No supported Synthesis component available for surgical completion')
+            if edit.evidence_id not in candidate.evidence_ids or any(e not in docs or candidate.text not in docs[e].text for e in candidate.evidence_ids):
+                raise ValueError('Completion candidate outside exact selected source')
+            constructed=compose(bundle,CompactSynthesis(context=(),direct_answer=candidate),fixture_mode=getattr(draft,'fixture_mode',False))
+            new=constructed.claims[-1]
+            new=new.model_copy(update={'claim_id':f'claim_{max(int(x.split("_")[1]) for x in replacements)+1:03d}'})
+            replacements={new.claim_id:new,**replacements} if not bundle.analytics else {**replacements,new.claim_id:new}
+            typed[new.claim_id]=constructed.components[-1].model_copy(update={'claim_id':new.claim_id})
+        elif edit.operation is CorrectionOperation.RESTORE_NUMERIC:
+            if edit.claim_id not in canonical or canonical[edit.claim_id].value is None or edit.evidence_id is not None:
                 raise ValueError('No canonical numeric restoration')
             replacements[edit.claim_id] = canonical[edit.claim_id]
         elif edit.operation is CorrectionOperation.DROP_CLAIM:
-            if c.value is not None or edit.evidence_id is not None:
+            if c.value is not None:
                 raise ValueError('Required governed numeric claims cannot be dropped')
+            if edit.evidence_id is not None and (edit.evidence_id not in docs
+                    or edit.evidence_id not in c.evidence_ids):
+                raise ValueError('Drop evidence must bind the disputed selected claim')
             del replacements[edit.claim_id]
+            typed.pop(edit.claim_id,None)
         elif edit.operation is CorrectionOperation.REBIND_QUOTE:
             item = docs.get(edit.evidence_id)
             if c.value is not None or item is None or c.text not in item.text:
                 raise ValueError('Citation correction must bind an exact existing quote')
             replacements[edit.claim_id] = c.model_copy(update={'evidence_ids':(edit.evidence_id,)})
+            if edit.claim_id in typed:
+                typed[edit.claim_id]=typed[edit.claim_id].model_copy(update={'evidence_ids':(edit.evidence_id,)})
         else:
             if edit.evidence_id is not None:
                 raise ValueError('Limitation is a closed governance template')
@@ -232,6 +290,18 @@ def surgical_patch(draft, bundle, feedback):
             if not set(required)-set(limitations):
                 raise ValueError('Requested governance limitation is already present')
             limitations.extend(required)
-    return draft.model_copy(update={'claims':tuple(replacements.values()),
+    update={'claims':tuple(replacements.values()),
         'answer':' '.join(c.text for c in replacements.values()),
-        'limitations':tuple(dict.fromkeys(limitations)), 'revision_number':1})
+        'limitations':tuple(dict.fromkeys(limitations)), 'revision_number':1}
+    if hasattr(draft,'components'):update['components']=tuple(typed.values())
+    return draft.model_copy(update=update)
+
+
+def safe_reviewed_subset(draft, bundle):
+    """After targeted review/patch, retain untouched exact non-risky quotations.
+
+    No approval of free-form residual interpretation, missing governance caveats
+    or altered canonical numbers. The final deterministic verifier still runs.
+    """
+    from .release_policy import review_required
+    return bool(draft.claims) and not review_required(draft,bundle)

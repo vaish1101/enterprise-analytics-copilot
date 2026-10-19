@@ -57,7 +57,8 @@ def test_secret_findings_never_return_matched_value():
 
 def test_env_template_is_empty_and_names_exist():
     source = "\n".join(path.read_text() for path in (ROOT / "src").rglob("*.py"))
-    source += (ROOT / "Dockerfile").read_text() + (ROOT / "docker-compose.yml").read_text()
+    source += (ROOT / "Dockerfile").read_text()
+    source += "\n".join(path.read_text() for path in ROOT.glob("docker-compose*.yml"))
     for line in (ROOT / ".env.example").read_text().splitlines():
         if not line or line.startswith("#"): continue
         key, value = line.split("=", 1)

@@ -16,6 +16,7 @@ from src.llm.openai_provider import (OpenAIStructuredProvider, _OpenAISynthesisD
 from src.orchestration.models import ProviderResult, SynthesisDraft, TokenUsage
 from .models import AgentBudgetState
 from .diagnostics import failure_category
+from .source_ownership import SourceSynthesis
 
 
 class ProviderBudgetExceeded(RuntimeError):
@@ -48,9 +49,13 @@ class SpendLedger:
 
 class BudgetedOpenAIProvider(OpenAIStructuredProvider):
     """Opt-in only; original provider and v1 graph implementation stay intact."""
-    def __init__(self, *, model, input_rate, output_rate, ledger, limits=None, client=None):
+    def __init__(self, *, model, input_rate, output_rate, ledger, limits=None, client=None,
+                 reasoning_effort=None):
         if not model:
             raise ProviderConfigurationError("Explicit evaluation model required")
+        if reasoning_effort not in (None,'none','low','medium','high'):
+            raise ProviderConfigurationError('Explicit supported reasoning effort required')
+        self.reasoning_effort=reasoning_effort
         self.input_rate = Decimal(str(input_rate))
         self.output_rate = Decimal(str(output_rate))
         if any(not rate.is_finite() or rate <= 0 for rate in (self.input_rate, self.output_rate)):
@@ -113,6 +118,9 @@ class BudgetedOpenAIProvider(OpenAIStructuredProvider):
             detail = {"role":role, "error_category":failure_category(error).value,
                 "error_type":type(error).__name__, "duration_ms":(time.monotonic()-started)*1000,
                 "revision":revision}
+            if hasattr(error, 'errors'):
+                detail['schema_errors'] = [{'location':list(x['loc']), 'type':x['type']}
+                    for x in error.errors(include_input=False,include_url=False,include_context=False)]
             self.failures.append(detail)
             if len(self.records) > record_count:
                 self.records[-1].update(detail)
@@ -132,24 +140,30 @@ class BudgetedOpenAIProvider(OpenAIStructuredProvider):
             self.calls += 1
             self.role_calls[group] = self.role_calls.get(group, 0) + 1
         wire_model = _OpenAISynthesisDraft if output_model is SynthesisDraft else output_model
+        from .semantic_review import wire_contract, to_feedback
+        from .semantic_review_provider import compact_input, canonical_text, capture_http, native_diagnostic
+        if role == 'critic':
+            wire_model = wire_contract(payload)
         def serialize(value):
             if hasattr(value, "model_dump"):
                 return value.model_dump(mode="json")
             raise TypeError("Unsupported structured payload")
+        model_payload = compact_input(payload) if role == 'critic' else payload
         messages = [{"role":"system", "content":prompt},
-            {"role":"user", "content":json.dumps(payload, default=serialize, sort_keys=True)}]
+            {"role":"user", "content":json.dumps(model_payload, default=serialize, sort_keys=True)}]
         # Match the SDK's strict schema for input counting and generation.
         text_format = {"format": type_to_text_format_param(wire_model)}
         self._check_active(deadline)
         client = self.client.with_options(max_retries=0, timeout=max(.001, deadline-time.monotonic()))
         preflight = {"role":role, "revision":revision, "status":"running",
             "payload_bytes":len(messages[1]["content"].encode()),
-            "remaining_ms":max(0, deadline-time.monotonic())*1000}
+            "remaining_ms":max(0, deadline-time.monotonic())*1000, "generation_started":False}
         self.preflights.append(preflight)
         count_started = time.monotonic()
+        explicit_reasoning={'reasoning':{'effort':self.reasoning_effort}} if self.reasoning_effort is not None else {}
         try:
             counted = client.responses.input_tokens.count(model=self.model, input=messages,
-                text=text_format, truncation="disabled")
+                text=text_format, truncation="disabled",**explicit_reasoning)
             preflight["status"] = "completed"
         except Exception:
             preflight["status"] = "failed"
@@ -180,13 +194,28 @@ class BudgetedOpenAIProvider(OpenAIStructuredProvider):
         # Closing the socket cannot guarantee cancellation of upstream computation.
         client = self.client.with_options(max_retries=0, timeout=max(.001, deadline-time.monotonic()))
         kwargs = dict(model=self.model, input=messages, max_output_tokens=output_cap,
-            store=False, truncation="disabled", service_tier="default")
-        # Critic schema validators must run AFTER usage is accounted, so a
+            store=False, truncation="disabled", service_tier="default",**explicit_reasoning)
+        # Compact classification is not a request for hidden deliberation.
+        # Keep this setting narrowly on the supported, explicitly used Luna role.
+        if self.reasoning_effort is None and role == 'critic' and self.model == 'gpt-6-luna':
+            kwargs['reasoning'] = {'effort':'none'}
+        if role == 'critic':
+            kwargs.update(stream=False, tools=[])
+        # Semantic Review Agent validators run AFTER usage is accounted, so a
         # semantic/schema failure cannot erase a confirmed paid response.
         generation_started = time.monotonic()
         try:
             self._check_active(deadline)
-            response = client.responses.create(text=text_format, **kwargs) if role == "critic" else client.responses.parse(text_format=wire_model, **kwargs)
+            raw_contract = role == 'critic' or issubclass(wire_model, SourceSynthesis)
+            # Telemetry only: reservations and token preflights are not generations.
+            record['generation_started'] = True
+            if role == 'critic':
+                raw = client.responses.with_raw_response.create(text=text_format, **kwargs)
+                record['semantic_review_http'] = capture_http(raw)
+                response = raw.parse()
+                record.update(native_diagnostic(response))
+            else:
+                response = client.responses.create(text=text_format, **kwargs) if raw_contract else client.responses.parse(text_format=wire_model, **kwargs)
         finally:
             record["generation_ms"] = (time.monotonic()-generation_started)*1000
         usage = response.usage
@@ -202,13 +231,25 @@ class BudgetedOpenAIProvider(OpenAIStructuredProvider):
             self.committed_tokens -= reserved_tokens - usage.input_tokens - usage.output_tokens
         record.update(status="completed", input_tokens=usage.input_tokens,
             output_tokens=usage.output_tokens, actual_usd=str(actual_cost))
+        record['response_status'] = response.status
+        details = getattr(response, 'incomplete_details', None)
+        record['incomplete_reason'] = getattr(details, 'reason', None)
+        if raw_contract and role != 'critic':
+            import hashlib
+            text = getattr(response,'output_text',None) or ''
+            record['wire_output'] = text[:65536]
+            record['wire_output_truncated'] = len(text)>65536
+            record['wire_output_sha256'] = hashlib.sha256(text.encode()).hexdigest()
+        output_details=getattr(usage,'output_tokens_details',None)
+        record['reasoning_tokens']=getattr(output_details,'reasoning_tokens',None)
         self._check_active(deadline)
         if response.status != "completed":
             raise ProviderMalformedOutputError("Incomplete structured response")
-        if role == "critic":
-            if not response.output_text:
-                raise ProviderMalformedOutputError("Empty critic output")
-            parsed = output_model.model_validate_json(response.output_text)
+        if raw_contract:
+            text = canonical_text(response) if role == 'critic' else response.output_text
+            if not text:
+                raise ProviderMalformedOutputError("Empty structured output")
+            parsed = to_feedback(wire_model.model_validate_json(text),payload) if role=='critic' else output_model.model_validate_json(text)
         else:
             if response.output_parsed is None:
                 raise ProviderMalformedOutputError("Empty structured output")

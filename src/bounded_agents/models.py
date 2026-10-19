@@ -80,6 +80,7 @@ class CriticDecision(str, Enum):
 
 
 class CriticIssue(str, Enum):
+    INCOMPLETE_ANSWER = "incomplete_answer"
     CAUSAL_OVERCLAIM = "causal_overclaim"
     MISSING_LIMITATION = "missing_limitation"
     UNSUPPORTED_INTERPRETATION = "unsupported_interpretation"
@@ -117,6 +118,21 @@ class AgentFailureCategory(str, Enum):
     POLICY_REJECTION = "policy_rejection"
     PROVIDER_FAILURE = "provider_failure"
     BUDGET_EXCEEDED = "budget_exceeded"
+    LOCAL_RUNTIME_ERROR = "local_runtime_error"
+    PATCH_EXECUTION_ERROR = "patch_execution_error"
+
+
+class FailureKind(str, Enum):
+    MODEL_DECISION_ERROR = "MODEL_DECISION_ERROR"
+    RETRIEVAL_DECISION_ERROR = "RETRIEVAL_DECISION_ERROR"
+    SYNTHESIS_ERROR = "SYNTHESIS_ERROR"
+    CRITIC_ERROR = "CRITIC_ERROR"
+    PATCH_EXECUTION_ERROR = "PATCH_EXECUTION_ERROR"
+    VERIFIER_REJECTION = "VERIFIER_REJECTION"
+    PROVIDER_TIMEOUT = "PROVIDER_TIMEOUT"
+    LOCAL_RUNTIME_ERROR = "LOCAL_RUNTIME_ERROR"
+    POLICY_WITHHOLDING = "POLICY_WITHHOLDING"
+    INSUFFICIENT_EVIDENCE = "INSUFFICIENT_EVIDENCE"
 
 
 class AgentBudgetState(Contract):
@@ -153,5 +169,6 @@ class AgentTraceEvent(Contract):
     usage: TokenUsage | None = None
     error_category: AgentFailureCategory | None = None
     error_type: str | None = None
+    failure_kind: FailureKind | None = None
     approved_choices: tuple[str, ...] = ()
     decision: dict | None = None

@@ -7,8 +7,11 @@ source metadata, curated documentation and original architecture visuals.
 It does not include raw reports/workbooks, full extracted text, model caches,
 embeddings, vector dumps, checkpoint/session state or secrets.
 
-A remote repository has not been created. Until a reviewed remote URL exists,
-use a local checkout; no invented clone URL or live-demo link is provided.
+The sanitized public repository is
+[enterprise-analytics-copilot](https://github.com/vaish1101/enterprise-analytics-copilot).
+The existing Vercel demonstration is a recorded frontend replay, not a hosted
+live AI backend. The source also includes an opt-in experimental four-role
+workflow; that workflow is not selected by public-demo startup.
 
 ## Docker-first numerical demo
 
@@ -58,8 +61,6 @@ npm ci
 npm test
 npx tsc --noEmit -p tsconfig.app.json
 npm run build
-npm run build:demo
-npm run preview
 ```
 
 Use Python 3.13 and Node 26 for parity with the Docker/CI definitions. `.env.example`
@@ -75,7 +76,15 @@ inside the ignored raw boundary; rights remain with the publishers. Do not rerun
 frozen held evaluations as a setup step. [Sources](data_sources.md) ·
 [Private runtime prerequisites](deployment.md)
 
-The full relevant local regression command is `.venv/bin/python -m pytest tests`;
-some tests require already acquired authorized assets. Missing such assets is
-not a public Docker defect. Historical held results are preserved records,
-not outputs a stranger must regenerate.
+The full private development suite requires authorized assets and is not fully
+reproducible from this public tree. Previously public evaluation definitions
+remain unchanged for historical continuity; do not execute frozen held sets. The
+public tests here are self-contained and do not require those assets. Historical
+held results are preserved privately, not outputs a stranger must regenerate.
+
+The full-local test total includes frozen development/intervention fixtures and
+is not the public suite count. Use the explicit public selection above. Frontend
+v2 response tests use labelled synthetic wire fixtures, not private Python fixture
+generators or evidence of live end-to-end success. Do not copy private fixtures
+or run held evaluators to complete setup. Bounded-agent and repair-option features
+remain opt-in development paths, not a change to the numerical-demo default.

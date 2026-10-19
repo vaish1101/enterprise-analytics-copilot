@@ -1,5 +1,10 @@
 # Methodology
 
+This page describes the validated default workflow and shared data/release
+contracts. The opt-in [four-role candidate](release_candidate_architecture.md)
+adds model-backed choices within authorized tool menus; it does not replace
+deterministic routing, arithmetic or final release checks.
+
 ## From question to bounded plan
 
 Question intake validates length and request shape. The deterministic planner
@@ -10,8 +15,10 @@ coverage leads to refusal. A prompt alone cannot onboard a new company or grant
 SQL/Python execution.
 
 Supported routes distinguish numerical analysis, documentary knowledge,
-combined analysis/context, and reported decomposition. Routing is deterministic,
-not an LLM decision about which tools to run.
+combined analysis/context, and reported decomposition. Route selection is
+deterministic in both paths. In the default workflow it fixes tool execution;
+the experimental roles may choose only among the tools and strategies admitted
+within that route.
 
 ## Numerical execution
 

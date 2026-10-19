@@ -10,11 +10,13 @@ needed. It is a local portfolio demonstration, not a hosted production service.
 
 ## Authorized full-local stack
 
-`docker-compose.yml` explicitly builds `private-runtime`, with a PostgreSQL/
-pgvector service and a one-shot evidence loader. The loader generates its schema
-from committed DDL; no ignored generated SQL is mounted. API/loader receive
-authorized corpus and model-cache mounts read-only. Neither target bakes private
-corpora, embeddings or raw reports into the image.
+The retained `docker-compose.yml` and `docker-compose.pgvector.yml` describe a
+separately configured PostgreSQL/pgvector stack and evidence loader. Its private
+corpus, model cache and runtime stores are not distributed. Source interfaces
+and topology are included for engineering review, but a public clone alone does
+not reproduce that private stack. Optional semantic
+dependencies require an authorized local setup. No private corpora, embeddings
+or raw reports are baked into the public image.
 
 Before this private stack can start, supply local-only configuration through the
 variables already supported by the code/Compose definitions:
@@ -28,7 +30,7 @@ variables already supported by the code/Compose definitions:
 
 Database connections must refer to the intended private Compose service/network.
 No credential-bearing connection example or default password is published. The
-private Compose file requires missing values explicitly rather than inventing
+private topology requires missing values explicitly rather than inventing
 usable defaults. Store real values only in ignored local configuration or a
 secret manager, never in Git, screenshots or public logs.
 
@@ -46,28 +48,14 @@ quota is conservative. Enable forwarding only with a trusted allowlist and
 sanitized headers plus gateway enforcement. Multi-instance exposure requires
 shared gateway limits, spending controls and capacity/backpressure review.
 
-## Frontend-only recorded deployment preparation
+## Planned, not deployed
 
-The root `vercel.json` installs the frontend dependencies, runs `build:demo` and
-serves `frontend/dist` with SPA routing. Select the repository root, not the
-frontend subdirectory. No backend, model key, database or provider configuration
-is required. Public mode performs exact-question fixture replay only and refuses
-other questions; it never falls back to a network request. Result and workflow
-views identify recorded outputs. The local API-connected build uses `npm run
-build` instead and is a separate mode.
-
-Confirm the intended account/project and free plan before deployment. No hosted
-deployment is claimed by these preparation instructions. Review the actual URL,
-assets, themes, language, source links and refusal paths before advertising it.
-See [Vercel build configuration](https://vercel.com/docs/builds/configure-a-build).
-
-## Authorized backend hosting boundary
-
-A separated frontend host, FastAPI service, managed PostgreSQL/pgvector and an
-external provider are possible future topology choices, not deployed assets.
+A live frontend-to-FastAPI connection, managed PostgreSQL/pgvector and an external
+provider are possible future deployment choices, not existing hosted assets.
 The old host-specific template is retained privately because it is not validated
-for the current public/private target distinction. No URL, release, Pages site
-or registry image has been published.
+for the current public/private target distinction. The existing Vercel URL hosts
+only the recorded frontend replay; no live AI backend, Pages site or public
+container registry image is claimed.
 
 Before any Internet deployment, review authentication/tenant/session access,
 TLS/origins, secrets, database extension/index availability, corpus rights,

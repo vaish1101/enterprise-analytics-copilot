@@ -13,6 +13,8 @@ import xml.etree.ElementTree as ET
 
 ROOT = Path(__file__).resolve().parents[1]
 PUBLIC_DOCS = {"data_contracts.md", "henkel_extraction_decision.md", "mercedes_xlsx_mapping.md", "architecture.md", "methodology.md", "evaluation.md", "provenance_and_verification.md", "data_sources.md", "limitations.md", "reproduction.md", "deployment.md", "publication_readiness.md", "public_file_inventory.csv"}
+PUBLIC_DOCS.update({"final_release_status.md", "release_candidate_architecture.md",
+                    "release_candidate_demo.md", "release_candidate_evaluation.md"})
 RULES = {
     "credential_prefix": re.compile(rb"(?:sk-(?:proj-)?[A-Za-z0-9_-]{24,}|AKIA[A-Z0-9]{16}|gh[pousr]_[A-Za-z0-9]{30,})"),
     "private_key": re.compile(rb"-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----"),

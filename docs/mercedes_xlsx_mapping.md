@@ -2,7 +2,7 @@
 
 ## Gate status
 
-**PASSED: OFFICIAL WORKBOOK ACQUIRED, VALIDATED, AND MAPPED**
+**PASSED — OFFICIAL WORKBOOK ACQUIRED, VALIDATED, AND MAPPED**
 
 - File: `mercedes-benz-fact-sheet-q2-2026.xlsx`
 - Source ID: `mercedes_q2_2026_fact_sheet_xlsx`

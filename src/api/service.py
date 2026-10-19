@@ -28,6 +28,7 @@ from .schemas import (
 )
 from .sessions import SessionStore
 from .settings import AppSettings, ROOT
+from .v2_product import project_v2
 
 
 STAGE_LABELS = {
@@ -45,9 +46,13 @@ STAGE_LABELS = {
 
 class GraphService:
     def __init__(self, settings: AppSettings, *, graph_factory: Callable[[], EnterpriseAnalyticsGraph] | None = None,
-                 session_store: SessionStore | None = None):
+                 session_store: SessionStore | None = None,
+                 request_scoped_graph_factory: Callable[[], EnterpriseAnalyticsGraph] | None = None):
+        if graph_factory is not None and request_scoped_graph_factory is not None:
+            raise ValueError("Choose cached or request-scoped graph factory, not both")
         self.settings = settings
         self.graph_factory = graph_factory
+        self.request_scoped_graph_factory = request_scoped_graph_factory
         self.sessions = session_store or SessionStore(None if settings.is_test else settings.session_db_path)
         self._graph: EnterpriseAnalyticsGraph | None = None
         self._checkpoint: CheckpointStore | None = None
@@ -91,7 +96,7 @@ class GraphService:
         effective_question = self._resolve_followup(question, sid)
         started = time.perf_counter()
         try:
-            result, evidence = await asyncio.wait_for(
+            execution_result = await asyncio.wait_for(
                 asyncio.to_thread(self._run_locked, effective_question, request_id, sid),
                 timeout=self.settings.request_timeout_seconds,
             )
@@ -101,7 +106,9 @@ class GraphService:
             raise
         except Exception as error:
             raise ProductError(503, "WORKFLOW_UNAVAILABLE", "The governed workflow is temporarily unavailable.") from error
-        response = self._response(result, evidence, request_id, sid, (time.perf_counter() - started) * 1000)
+        result, evidence = execution_result[:2]
+        v2 = execution_result[2] if len(execution_result) == 3 else None
+        response = self._response(result, evidence, request_id, sid, (time.perf_counter() - started) * 1000, v2=v2)
         self.sessions.append(sid, {
             "request_id": request_id, "question": question, "status": response.status,
             "resolved_question": effective_question, "route": response.route, "answer": response.answer,
@@ -143,11 +150,16 @@ class GraphService:
             # A session groups safe interaction history. Each question receives a
             # fresh graph checkpoint thread so a completed state can never be
             # resumed for a different question in that session.
-            result = self.graph.run(question, question_id=request_id, thread_id=request_id)
-            evidence = self.graph.last_state.get("evidence") if hasattr(self.graph, "last_state") else None
-            return result, evidence
+            graph = self.request_scoped_graph_factory() if self.request_scoped_graph_factory else self.graph
+            result = graph.run(question, question_id=request_id, thread_id=request_id)
+            state = getattr(graph, "last_state", {}) or getattr(graph, "last_observed_state", {})
+            evidence = state.get("evidence")
+            projection = project_v2(graph, result)
+            # Preserve the existing default helper contract. Experimental
+            # request-scoped results carry their own projection, never shared state.
+            return (result, evidence, projection) if projection else (result, evidence)
 
-    def _response(self, result, evidence, request_id: str, session_id: str, latency_ms: float) -> QueryResponse:
+    def _response(self, result, evidence, request_id: str, session_id: str, latency_ms: float, *, v2=None) -> QueryResponse:
         claims = [ClaimResponse(
             claim_id=item.claim_id, provenance=item.claim_type.value, text=item.text,
             company_id=item.company_id, metric_id=item.metric_id, business_scope=item.business_scope,
@@ -172,9 +184,10 @@ class GraphService:
             ))
         counts = Counter(item.provenance for item in claims)
         verification = None
+        product = v2["product"] if v2 else None
         if result.verification:
             supported = sum(check.support is ClaimSupport.SUPPORTED for check in result.verification.claim_checks)
-            partial = result.status is WorkflowStatus.COMPLETED and supported < len(result.verification.claim_checks)
+            partial = product.release_mode == "PARTIAL" if product else result.status is WorkflowStatus.COMPLETED and supported < len(result.verification.claim_checks)
             label = "Supported subset returned" if partial else (
                 "Verified" if result.verification.verdict.value == "PASS" else "Verified with limitations"
             )
@@ -201,10 +214,20 @@ class GraphService:
             stages=stages,
         )
         analytics, fact_sources = governed_numbers(result, evidence, claims, product_catalog(ROOT))
-        # Internal numerical checks can pass before a required-document refusal.
-        # That is not a PASS certificate for an answer which was never released.
+        # A checked numerical seed is not a release certificate for a refused answer.
         if result.status is not WorkflowStatus.COMPLETED and verification and verification.verdict == 'PASS':
             verification = None
+        if product:
+            if product.release_mode == "WITHHELD" and verification:
+                verification = verification.model_copy(update={"label": "Answer withheld"})
+            execution = execution.model_copy(update={
+                "provider_calls": product.provider_generation_count,
+                "retrieval_used": product.retrieval_used, "analytics_used": v2["analytics_used"],
+                "revision_used": v2["revision_used"], "verifier_interventions": v2["verifier_interventions"],
+                "stages": v2["stages"],
+            })
+            if verification:
+                verification = verification.model_copy(update={"errors": ["VERIFICATION_FAILURE"] if verification.errors else []})
         return QueryResponse(
             request_id=request_id, session_id=session_id, status=result.status.value,
             route=result.route.value, answer=result.answer, claims=claims, citations=citations,
@@ -212,7 +235,8 @@ class GraphService:
             provenance_summary=[ProvenanceCount(provenance=key, count=value) for key, value in sorted(counts.items())],
             execution=execution, latency_ms=round(latency_ms, 2), provider=result.provider_name,
             model=result.provider_model, clarification_question=result.clarification_question,
-            refusal_reason=result.refusal_reason,
+            refusal_reason=",".join(product.reason_codes) or None if product else result.refusal_reason,
+            product=product,
             analytics=analytics, fact_sources=fact_sources,
         )
 
