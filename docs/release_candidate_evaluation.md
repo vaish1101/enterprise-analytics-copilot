@@ -1,5 +1,12 @@
 # Evaluation boundaries for this release draft
 
+The 18 October public compatibility checkpoint passed 194 Python tests locally
+and the same 194 in Docker, plus 101 frontend tests and production/recorded-demo
+builds. The public Python selection passed again on 19 October with network
+access blocked. These checkpoints supplement rather than replace the full-local
+integration results below. Repeated executions are not additional independent
+tests, and scripted integration checks are not live-model accuracy measurements.
+
 The 17 October integrated snapshot ran 956 existing Python regressions and 91 integrated policy/API checks. Frontend: 57 tests and build/type checking passed. Counts describe distinct suites; repeated environment runs must not be added as new tests.
 
 Actual local pgvector validation exercised six development questions in each of two experimental arms, with cached MiniLM and scripted model decisions: 12 executions, not 12 live LLM evaluations. The required Mercedes and Henkel explanations were admitted in one top-five search; unresolved growth-rate comparison stayed PARTIAL and unsupported separate-price attribution stayed withheld. Evidence/database and model-cache fingerprints were unchanged.

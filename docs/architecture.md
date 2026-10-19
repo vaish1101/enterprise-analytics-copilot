@@ -42,13 +42,15 @@ owned menus; governed tools execute calculations/retrieval, and the deterministi
 release verifier retains final authority. The planner is still deterministic.
 Multiple roles do not imply unconstrained autonomy or parallel execution.
 
-The candidate is offline-tested, not the production default. Within it,
-`semantic-review-1` remains the default review contract. The development contract
-`semantic-review-repair-options-2` must be explicitly selected: claim corrections
-identify an existing disputed claim; documentary completion selects a validated,
-application-issued repair option. Its component, source and execution anchor are
-resolved by application code. Invalid, stale or incompatible targets fail closed.
-No arbitrary replacement prose or release override is accepted.
+The candidate is offline-tested, not the production default. Direct construction
+of `BoundedAgentsGraph` defaults to `semantic-review-1`. The opt-in experimental
+FastAPI factory in `src/bounded_agents/experimental_app.py` explicitly selects
+`semantic-review-repair-options-2`; this does not change the default application.
+Under that contract, claim corrections identify an existing disputed claim, while
+documentary completion selects a validated, application-issued repair option.
+Its component, source and execution anchor are resolved by application code.
+Invalid, stale or incompatible targets fail closed. No arbitrary replacement
+prose or release override is accepted.
 
 One targeted live documentary-completion review selected the correct application
 repair option. Offline completion checks passed; the overall result remained

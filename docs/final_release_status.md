@@ -2,6 +2,14 @@
 
 Review: 17 October 2026. No production configuration, GitHub branch or deployment was changed during this review.
 
+Publication continuation: 19 October 2026. The sanitized source update is available
+on a review branch; it is not merged into main and does not promote the four-role
+candidate. The existing Vercel production deployment remains on `79cd2a5`.
+Read-only dashboard inspection and nine served-content hashes confirmed that
+production remained unchanged after the review-branch push; the Preview deployment
+list was empty. Review-branch publication does not authorize a main merge,
+deployment or provider call.
+
 Compatibility continuation: 18 October 2026. The complete additive publication
 tree restores all existing presentation/schema types, structured analytics and
 fact sources, metadata labels and unreleased-answer verification handling. The
@@ -24,9 +32,13 @@ Recorded Mercedes analysis, source inspection, Henkel sales (10,348 EUR million)
 
 `/api/v1/metadata` and `/ready` on the Vercel host return the SPA HTML rather than backend JSON. They are not healthy FastAPI endpoints. `build:demo` compiles the no-network recorded adapter. No active backend connection or backend CORS deployment is claimed. Vite's development proxy is local-only. Do not point the static deployment at a paid backend without authorization.
 
-The checked public bundles contain no credential patterns, and all three font notices are served. Private Vercel environment settings were not accessible in this review; an owner must confirm that no secrets are stored in exposed `VITE_*` variables. Source/bundle scans do not certify hidden dashboard configuration.
+The checked public bundles contain no credential patterns, and all three font
+notices are served. The owner subsequently inspected Vercel and reported no
+project/shared environment variables, including no exposed `VITE_*` values.
+That dashboard finding is owner-reported; source/bundle scans alone do not
+certify hidden configuration.
 
-## Security patch in this unpublished draft
+## Security patch in the reviewed source
 
 Fresh npm review found GHSA-68fv-2mgg-jv7q in transitive `source-map-js` 1.2.1, a development dependency. This draft pins 1.2.2, the patched version, without changing frontend implementation. Only that locked package record changed. The final fresh npm audit reports no known advisories. Fresh Python requirements review reports no known advisories across 64 resolved packages; this does not certify all future resolutions or deployment images.
 
@@ -42,8 +54,21 @@ Live evaluation still requires the frozen human-review requirement, verified all
 
 ## GitHub and rights
 
-Use the existing sanitized public repository history. Do not merge private commits, force-push private branches, export raw corpora/embeddings/provider transcripts, or rewrite protected evaluation history. Historical local database defaults should be rotated if reused outside disposable local development; no real provider key was identified by the scoped scans.
+Use the existing sanitized public repository history. Do not merge private
+commits, force-push private branches, export raw corpora/embeddings/provider
+transcripts, or rewrite protected evaluation history. The active historical
+local PostgreSQL password was rotated on 19 October; fresh configured connections
+passed and one controlled old-password attempt was rejected. Data, embeddings and
+indexes were preserved. Reuse outside that environment remains unverified; rotate
+elsewhere if reused. No credential values are distributed. The local application
+still uses a superuser role, so password rotation is not least-privilege or
+public-backend production-security clearance.
 
 Existing project ownership and third-party notices are retained. Font license text is copied into build assets; raw publisher reports are not distributed. Screenshots show this project's existing UI and the recorded-demo disclosure. Package license inventories are not blanket redistribution permission for arbitrary third-party material.
 
-Owner approval is required before any push. Vercel is connected to the public repository: pushing or merging may trigger a preview/production deployment. Coordinate those side effects before publishing even a review branch; no automatic redeployment is authorized here.
+Vercel is connected to the public repository. The committed configuration disables
+automatic deployment specifically for `feature/multi-agent-analytics` and the
+preserved earlier review branch. The safeguard must be present before either
+branch is pushed. Other branches remain deployment-enabled by default. In
+particular, merging into main can trigger production deployment and requires
+separate approval. No dashboard configuration was changed.

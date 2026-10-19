@@ -1,9 +1,9 @@
 # Publication candidate readiness
 
-This local candidate is an additive overlay against sanitized public commit
+The source update is an additive overlay against sanitized public commit
 `79cd2a51776bbfbda2c5b98c596598211f6117a8`. It preserves every existing public-base
-file, including the 72 paths missing from the earlier export. No private Git
-history is included. No push, deployment or production promotion has occurred.
+path. No private Git history is included. Review-branch publication is separate
+from merging, deployment and experimental-workflow promotion.
 
 ## Included and excluded
 
@@ -47,8 +47,10 @@ distributed or that the clone reproduces the private stack.
 - Current frontend checks passed 101 unit tests, TypeScript, production and
   recorded-demo builds. The existing large visual-scene bundle warning remains. Build/unit checks
   are not visual, accessibility or motion acceptance.
-- Hosted CI has not run. Final UI/assets acceptance and repository destination
-  confirmation remain gates. No public service was deployed.
+- GitHub checks must pass on the exact reviewed commit before merge; historical
+  local passes are not a substitute for current CI results. Final integrated
+  UI/accessibility/motion acceptance remains separate. No live public backend
+  is claimed.
 
 ## Claims and remaining gates
 

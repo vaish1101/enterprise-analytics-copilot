@@ -10,7 +10,8 @@ embeddings, vector dumps, checkpoint/session state or secrets.
 The sanitized public repository is
 [enterprise-analytics-copilot](https://github.com/vaish1101/enterprise-analytics-copilot).
 The existing Vercel demonstration is a recorded frontend replay, not a hosted
-live AI backend. This additive update remains unpublished until owner approval.
+live AI backend. The source also includes an opt-in experimental four-role
+workflow; that workflow is not selected by public-demo startup.
 
 ## Docker-first numerical demo
 

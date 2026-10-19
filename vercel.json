@@ -4,7 +4,8 @@
   "framework": null,
   "git": {
     "deploymentEnabled": {
-      "codex/publication-release-review": false
+      "codex/publication-release-review": false,
+      "feature/multi-agent-analytics": false
     }
   },
   "rewrites": [{ "source": "/((?!assets/).*)", "destination": "/index.html" }],
